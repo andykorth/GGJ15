@@ -152,7 +152,7 @@
     _shootTimer = MIN(1.0f, _shootTimer + delta * _shootChargeRate);
     [self updateShootBar];
     
-    const cpFloat forwardAcceleration = 600.0;
+    const cpFloat forwardAcceleration = 800.0;
     const cpFloat maxForwardSpeed = 800.0;
     
     // Maximum rotation speed when traveling at the maximum speed.
@@ -193,7 +193,7 @@
     cpFloat angularVelocity = body.angularVelocity;
     
     // Plane turns better the faster you are going.
-    cpFloat controlCoefficient = fmax(fabs(velocity.x/maxForwardSpeed), 0.1);
+    cpFloat controlCoefficient = fmax(fabs(velocity.x/maxForwardSpeed), 0.4);
     cpFloat controlRotation = maxRotationSpeed*_turn*controlCoefficient;
     
     // Rotation due to the movement of the center of drag.
