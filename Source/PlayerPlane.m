@@ -3,6 +3,7 @@
 #import "PlayerPlane.h"
 
 #import "Bullet.h"
+#import "Bomb.h"
 
 @implementation PlayerPlane{
     NSNumber *_thrustKey;
@@ -10,11 +11,13 @@
     NSNumber *_rightKey;
     NSNumber *_fire1;
     NSNumber *_fire2;
-        
+
     float _shootTimer;
     float _shootCostPerGun;
     float _shootCostPerBomb;
     float _shootChargeRate;
+    
+    CCTimer *_bombTimer;
 }
 
 
@@ -33,6 +36,12 @@
     self.userInteractionEnabled= true;
 }
 
+-(void)onExit
+{
+    [super onExit];
+    [self cancelBombs];
+}
+
 -(void)setPlayerNumber:(int)playerNumber
 {
     _playerNumber = playerNumber;
@@ -41,8 +50,8 @@
         _thrustKey = @13;
         _leftKey = @0;
         _rightKey = @2;
-        _fire1 = @3;
-        _fire2 = @5;
+        _fire1 = @38;
+        _fire2 = @40;
     } else {
         _thrustKey = @126;
         _leftKey = @123;
@@ -54,6 +63,8 @@
 
 - (void)keyDown:(NSEvent *)theEvent
 {
+    if(theEvent.isARepeat) return;
+    
 //    NSLog(@"Key down: %@", theEvent);
     NSNumber *keyCode = @(theEvent.keyCode);
     
@@ -62,11 +73,30 @@
     if([keyCode isEqualTo:_fire1]){
         [self shoot];
     }
+    
+    if([keyCode isEqualTo:_fire2]){
+        _bombTimer = [self scheduleBlock:^(CCTimer *timer) {
+            
+            if(_shootTimer <= _shootCostPerGun){
+                return;
+            }
+            _shootTimer -= _shootCostPerGun;
+            
+            Bomb *bomb = [[Bomb alloc] initWithGroup:self];
+            bomb.position = self.position;
+            
+            bomb.physicsBody.velocity = self.physicsBody.velocity;
+            [self.parent addChild:bomb];
+        } delay:0];
+        
+        _bombTimer.repeatCount = 5;
+        _bombTimer.repeatInterval = 0.05;
+    }
 }
 
 -(void) shoot
 {
-    if(_shootTimer <= 0.0f){
+    if(_shootTimer <= _shootCostPerGun){
         return;
     }
     _shootTimer -= _shootCostPerGun;
@@ -81,7 +111,19 @@
 
 - (void)keyUp:(NSEvent *)theEvent
 {
-    [_keyDowns removeObjectForKey:@(theEvent.keyCode)];
+    NSNumber *keyCode = @(theEvent.keyCode);
+    
+    [_keyDowns removeObjectForKey:keyCode];
+    
+    if([keyCode isEqualTo:_fire2]){
+        [self cancelBombs];
+    }
+}
+
+-(void)cancelBombs
+{
+    [_bombTimer invalidate];
+    _bombTimer = nil;
 }
 
 -(void) updateShootBar
