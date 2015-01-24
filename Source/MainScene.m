@@ -8,10 +8,11 @@
 {
     
     [self setUserInteractionEnabled:true];
-    _title.string = @"No key";
+    _title.string = @"";
 
     _physicsNode.debugDraw = YES;
-    _gradient.visible = false;
+//    _gradient.visible = false;
+    _gradient.zOrder = -100;
     
     _player1 = (PlayerPlane *)[CCBReader load:@"Plane"];
     _player1.position = ccp(500, 500);
