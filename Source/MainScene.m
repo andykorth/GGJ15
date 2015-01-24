@@ -20,7 +20,7 @@
     [_physicsNode addChild:_player1];
 
     _player2 = (PlayerPlane *)[CCBReader load:@"Plane"];
-    _player2.position = ccp(30, 30);
+    _player2.position = ccp(100, 500);
     _player2.playerNumber = 1;
     _player2.scale = 2.0f;
     [_physicsNode addChild:_player2];

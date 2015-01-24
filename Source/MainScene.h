@@ -2,7 +2,7 @@
 #import "cocos2d.h"
 #import "PlayerPlane.h"
 
-@interface MainScene : CCNode
+@interface MainScene : CCScene
 
 @property (nonatomic,strong) CCLabelTTF* title;
 
