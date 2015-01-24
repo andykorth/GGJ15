@@ -77,20 +77,18 @@
     if([keyCode isEqualTo:_fire2]){
         _bombTimer = [self scheduleBlock:^(CCTimer *timer) {
             
-            if(_shootTimer <= _shootCostPerGun){
+            if(_shootTimer <= _shootCostPerBomb){
                 return;
             }
-            _shootTimer -= _shootCostPerGun;
+            _shootTimer -= _shootCostPerBomb;
             
             Bomb *bomb = [[Bomb alloc] initWithGroup:self];
             bomb.position = self.position;
             
             bomb.physicsBody.velocity = self.physicsBody.velocity;
             [self.parent addChild:bomb];
+            [timer repeatOnceWithInterval:0.1];
         } delay:0];
-        
-        _bombTimer.repeatCount = 5;
-        _bombTimer.repeatInterval = 0.05;
     }
 }
 
