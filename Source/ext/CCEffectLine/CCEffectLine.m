@@ -183,10 +183,10 @@ GLKVector4 GLKVector4FromString(NSString *data)
     }
     
     data = [dict objectForKey:@"wind"];
-    if (data) _wind = CGPointFromString(data);
+    if (data) _wind = NSPointFromString(data);
 
     data = [dict objectForKey:@"gravity"];
-    if (data) _gravity = CGPointFromString(data);
+    if (data) _gravity = NSPointFromString(data);
 
     data = [dict objectForKey:@"colorStart"];
     if (data) _colorStart = GLKVector4FromString(data);
@@ -241,8 +241,8 @@ GLKVector4 GLKVector4FromString(NSString *data)
     // reset helper properties
     _lastTime = 0;
     _lastPosition = CGPointZero;
-    _contentScale = [CCDirector sharedDirector].contentScaleFactor;
-    _textureGain = 1.0f / [CCDirector sharedDirector].viewSize.width;
+    _contentScale = [CCDirector currentDirector].contentScaleFactor;
+    _textureGain = 1.0f / [CCDirector currentDirector].viewSize.width;
     _expired = NO;
     _widthCheck = NO;
     _drawSpeed = 0;
@@ -260,13 +260,7 @@ GLKVector4 GLKVector4FromString(NSString *data)
     [self addChild:_debugDraw];
     
     // load custom shader
-    NSString *vertexPath = [[CCFileUtils sharedFileUtils] fullPathForFilename:@"CCEffectLine.vert"];
-    NSString *vertexSource = [NSString stringWithContentsOfFile:vertexPath encoding:NSUTF8StringEncoding error:nil];
-
-    NSString *fragmentPath = [[CCFileUtils sharedFileUtils] fullPathForFilename:@"CCEffectLine.frag"];
-    NSString *fragmentSource = [NSString stringWithContentsOfFile:fragmentPath encoding:NSUTF8StringEncoding error:nil];
-    
-    self.shader = [[CCShader alloc] initWithVertexShaderSource:vertexSource fragmentShaderSource:fragmentSource];
+    self.shader = [CCShader shaderNamed:@"CCEffectLine"];
     
     // done
     return self;
@@ -394,8 +388,6 @@ GLKVector4 GLKVector4FromString(NSString *data)
 
 - (BOOL)add:(CGPoint)pos timestamp:(NSTimeInterval)timestamp
 {
-    NSAssert(_lastTime != 0, @"Line has not been started");
-    
     // calculate speed
     float newSpeed = ccpDistance(pos, _lastPosition) / (timestamp - _lastTime) / CCEffectLineSpeedDivider;
     _drawSpeed += (newSpeed - _drawSpeed) * CCEffectLineSpeedInterpolation;
