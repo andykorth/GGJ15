@@ -62,8 +62,15 @@
     
 }
 
+
 static const float MinBarWidth = 5.0;
 
+-(void)onEnter
+{
+    [super onEnter];
+    
+    self.scene.scheduler.fixedUpdateInterval = 1.0/240.0;
+}
 
 -(void)update:(CCTime)delta
 {
