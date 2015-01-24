@@ -10,16 +10,20 @@
 
 -(void)setWeaponBarAmount:(float) alpha
 {
-    CGSize size = _healthBar.contentSize;
+    alpha = MAX(0, alpha);
+    
+    CGSize size = _weaponBar.parent.contentSize;
     float width = alpha*size.width;
-    _healthBar.contentSize = CGSizeMake(width, size.height);
+    _weaponBar.contentSize = CGSizeMake(width, size.height);
 }
 
 -(void)setHealthBarAmount:(float) alpha
 {
-    CGSize size = _weaponBar.parent.contentSize;
+    alpha = MAX(0, alpha);
+
+    CGSize size = _healthBar.parent.contentSize;
     float width = alpha*size.width;
-    _weaponBar.contentSize = CGSizeMake(width, size.height);
+    _healthBar.contentSize = CGSizeMake(width, size.height);
 }
 
 
