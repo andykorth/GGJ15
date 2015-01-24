@@ -16,7 +16,7 @@
 
 - (void)keyDown:(NSEvent *)theEvent
 {
-    NSLog(@"Key down: %@", theEvent);
+//    NSLog(@"Key down: %@", theEvent);
     _keyDowns[@(theEvent.keyCode)] = @(true);
 }
 

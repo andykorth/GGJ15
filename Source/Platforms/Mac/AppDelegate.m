@@ -23,6 +23,7 @@
     [self.window setFrame:CGRectMake(0.0f, 0.0f, defaultWindowSize.width, defaultWindowSize.height) display:true animate:false];
 
     [self.glView setFrame:self.window.frame];
+    [self.window makeFirstResponder:self.glView];
     
     CCDirectorMac *director = (CCDirectorMac*) self.glView.director;
 

@@ -14,11 +14,11 @@
     _gradient.visible = false;
     
     _player1 = (PlayerPlane *)[CCBReader load:@"Plane"];
-    _player1.position = ccp(30, 30);
+    _player1.position = ccp(500, 500);
     [_physicsNode addChild:_player1];
 
     // todo fix node class
-    _player2 = [CCBReader load:@"Plane"];
+    _player2 = (PlayerPlane *)[CCBReader load:@"Plane"];
     _player2.position = ccp(30, 30);
     ((PlayerPlane *)_player2.children[0]).playerNumber = 1;
     [_physicsNode addChild:_player2];
@@ -26,21 +26,19 @@
     {
         float w = 1000;
         float h = 800;
-    CCPhysicsBody *body = [CCPhysicsBody bodyWithShapes:
-    @[
-        [CCPhysicsShape pillShapeFrom:ccp(0,  0) to:ccp(0, h) cornerRadius:1.0f],
-        [CCPhysicsShape pillShapeFrom:ccp(0,  0) to:ccp(w, 0) cornerRadius:1.0f],
-        [CCPhysicsShape pillShapeFrom:ccp(w,  0) to:ccp(w, h) cornerRadius:1.0f],
-        [CCPhysicsShape pillShapeFrom:ccp(0,  h) to:ccp(w, h) cornerRadius:1.0f],
-    ]];
-    body.type = CCPhysicsBodyTypeStatic;
-    CCNode * bounds = [CCNode node];
-    bounds.physicsBody = body;
-    
-    [_physicsNode addChild:bounds];
+        CCPhysicsBody *body = [CCPhysicsBody bodyWithShapes:@[
+            [CCPhysicsShape pillShapeFrom:ccp(0,  0) to:ccp(0, h) cornerRadius:1.0f],
+            [CCPhysicsShape pillShapeFrom:ccp(0,  0) to:ccp(w, 0) cornerRadius:1.0f],
+            [CCPhysicsShape pillShapeFrom:ccp(w,  0) to:ccp(w, h) cornerRadius:1.0f],
+            [CCPhysicsShape pillShapeFrom:ccp(0,  h) to:ccp(w, h) cornerRadius:1.0f],
+        ]];
+        
+        body.type = CCPhysicsBodyTypeStatic;
+        CCNode * bounds = [CCNode node];
+        bounds.physicsBody = body;
+
+        [_physicsNode addChild:bounds];
     }
-    
-    
 }
 
 
@@ -51,12 +49,12 @@
 
 - (void)keyDown:(NSEvent *)theEvent
 {
-    _title.string = [NSString stringWithFormat:@"KeyDown: %@", theEvent.characters];
+    
 }
 
 - (void)keyUp:(NSEvent *)theEvent
 {
-    _title.string = [NSString stringWithFormat:@"KeyUp: %@", theEvent.characters];
+    
 }
 
 @end
