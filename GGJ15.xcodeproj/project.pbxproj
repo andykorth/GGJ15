@@ -13,6 +13,8 @@
 		5B121038197487F2004C1E1D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B737893E1807617C0076A88C /* AppDelegate.m */; };
 		75BC27D31A735B730043F398 /* PlayerPlane.m in Sources */ = {isa = PBXBuildFile; fileRef = 75BC27D21A735B730043F398 /* PlayerPlane.m */; };
 		75BC27D41A735B730043F398 /* PlayerPlane.m in Sources */ = {isa = PBXBuildFile; fileRef = 75BC27D21A735B730043F398 /* PlayerPlane.m */; };
+		75BC27E41A7439E50043F398 /* StatusNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 75BC27E31A7439E50043F398 /* StatusNode.m */; };
+		75BC27E61A743D3D0043F398 /* StatusNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 75BC27E31A7439E50043F398 /* StatusNode.m */; };
 		7A046D8C19E8A20E004C4763 /* MainScene.m in Sources */ = {isa = PBXBuildFile; fileRef = B7378993180767190076A88C /* MainScene.m */; };
 		7A40360419DDEE84007B6E8F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A40360319DDEE84007B6E8F /* main.m */; };
 		7A4036E819DE3F33007B6E8F /* MainScene.m in Sources */ = {isa = PBXBuildFile; fileRef = B7378993180767190076A88C /* MainScene.m */; };
@@ -191,6 +193,8 @@
 		5BA4619E1974C88900785744 /* AndroidManifest.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = AndroidManifest.xml; path = Platforms/Android/AndroidManifest.xml; sourceTree = "<group>"; };
 		75BC27D11A735B730043F398 /* PlayerPlane.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerPlane.h; sourceTree = "<group>"; };
 		75BC27D21A735B730043F398 /* PlayerPlane.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerPlane.m; sourceTree = "<group>"; };
+		75BC27E21A7439E50043F398 /* StatusNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusNode.h; sourceTree = "<group>"; };
+		75BC27E31A7439E50043F398 /* StatusNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusNode.m; sourceTree = "<group>"; };
 		7A4035FF19DDEE84007B6E8F /* GGJ15 Mac.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "GGJ15 Mac.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7A40360219DDEE84007B6E8F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = Platforms/Mac/Info.plist; sourceTree = "<group>"; };
 		7A40360319DDEE84007B6E8F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Source/Platforms/Mac/main.m; sourceTree = "<group>"; };
@@ -488,6 +492,8 @@
 				B7378993180767190076A88C /* MainScene.m */,
 				75BC27D11A735B730043F398 /* PlayerPlane.h */,
 				75BC27D21A735B730043F398 /* PlayerPlane.m */,
+				75BC27E21A7439E50043F398 /* StatusNode.h */,
+				75BC27E31A7439E50043F398 /* StatusNode.m */,
 				D352B48019EC608A00829775 /* MetalShaders */,
 				D3C6B8D81A73FA7A00E26A03 /* Bullet.h */,
 				D3C6B8D41A73FA6C00E26A03 /* Bullet.m */,
@@ -905,6 +911,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				75BC27E61A743D3D0043F398 /* StatusNode.m in Sources */,
 				D3C6B8D71A73FA6C00E26A03 /* Bullet.m in Sources */,
 				D3C6B9001A74305600E26A03 /* CCEffectLine.m in Sources */,
 				D3C6B90F1A74305600E26A03 /* README.md in Sources */,
@@ -944,6 +951,7 @@
 				D3C6B9071A74305600E26A03 /* CCEffectLineSegment.m in Sources */,
 				D3C6B9041A74305600E26A03 /* CCEffectLineFactory.m in Sources */,
 				75BC27D31A735B730043F398 /* PlayerPlane.m in Sources */,
+				75BC27E41A7439E50043F398 /* StatusNode.m in Sources */,
 				7A046D8C19E8A20E004C4763 /* MainScene.m in Sources */,
 				5B121038197487F2004C1E1D /* AppDelegate.m in Sources */,
 				D3C6B8E11A740E6600E26A03 /* Bomb.m in Sources */,

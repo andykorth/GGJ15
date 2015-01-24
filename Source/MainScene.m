@@ -4,6 +4,8 @@
 #import "Bullet.h"
 #import "Bomb.h"
 
+#import "StatusNode.h"
+
 @implementation MainScene
 {
     // HUD elements
@@ -13,6 +15,7 @@
 }
 
 #define Z_HUD 10
+#define Z_EFFECTS 100
 
 - (void) didLoadFromCCB
 {
@@ -48,6 +51,17 @@
     _player2.mainScene = self;
     [_physicsNode addChild:_player2];
 
+    _player1Status = (StatusNode *)[CCBReader load:@"StatusNode"];
+    [_physicsNode addChild:_player1Status];
+    
+    _player2Status = (StatusNode *)[CCBReader load:@"StatusNode"];
+    [_physicsNode addChild:_player2Status];
+    
+    CCNode *airship = (CCSprite *)[CCBReader load:@"airship"];
+    airship.position = ccp(w/2.0f, h/2.0f);
+    airship.scale = 3.0f;
+    [_physicsNode addChild:airship];
+    
     {
     
         CCPhysicsBody *body = [CCPhysicsBody bodyWithShapes:@[
@@ -77,12 +91,16 @@ static const float MinBarWidth = 5.0;
 
 -(void)setWeaponBar:(float) alpha forPlayer:(int) player
 {
-    CCNode * bar = player == 0 ? _weaponBar1 : _weaponBar2;
-    
-    CGSize size = bar.parent.contentSize;
-    float width = alpha*size.width;
-    bar.contentSize = CGSizeMake(MAX(width, MinBarWidth), size.height);
+    StatusNode * bar = player == 0 ? _player1Status : _player2Status;
+    [bar setWeaponBarAmount:alpha];
 }
+
+-(void)setHealthBar:(float) alpha forPlayer:(int) player
+{
+    StatusNode * bar = player == 0 ? _player1Status : _player2Status;
+    [bar setHealthBarAmount:alpha];
+}
+
 
 -(void)onEnter
 {
@@ -93,7 +111,8 @@ static const float MinBarWidth = 5.0;
 
 -(void)update:(CCTime)delta
 {
-    
+    _player1Status.position = _player1.position;
+    _player2Status.position = _player2.position;
 }
 
 - (void)keyDown:(NSEvent *)theEvent
@@ -114,11 +133,22 @@ static const float MinBarWidth = 5.0;
     return false;
 }
 
--(BOOL)ccPhysicsCollisionBegin:(CCPhysicsCollisionPair *)pair player:(PlayerPlane *)wall bullet:(Bullet *)bullet
+-(BOOL)ccPhysicsCollisionBegin:(CCPhysicsCollisionPair *)pair player:(PlayerPlane *)player bullet:(Bullet *)bullet
 {
-    [bullet destroy];
     NSLog(@"hit!");
     
+    CCNode* explosion = [CCBReader load:@"Particles/BombExplosion"];
+    explosion.position = bullet.position;
+    [_physicsNode addChild:explosion z:Z_EFFECTS];
+    
+    [self scheduleBlock:^(CCTimer *timer) {
+        [explosion removeFromParent];
+    } delay:3.0];
+    
+    player.health -= 0.2f;
+    
+    [bullet destroy];
+
     return true;
 }
 
