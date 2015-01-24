@@ -48,6 +48,12 @@
     _player2.mainScene = self;
     [_physicsNode addChild:_player2];
 
+    
+    CCNode *airship = (CCSprite *)[CCBReader load:@"airship"];
+    airship.position = ccp(w/2.0f, h/2.0f);
+    airship.scale = 3.0f;
+    [_physicsNode addChild:airship];
+    
     {
     
         CCPhysicsBody *body = [CCPhysicsBody bodyWithShapes:@[
