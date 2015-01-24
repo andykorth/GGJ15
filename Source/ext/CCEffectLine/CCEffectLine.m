@@ -492,7 +492,7 @@ GLKVector4 GLKVector4FromString(NSString *data)
             [self addEffectLineSegment:newPos
                            direction:ccpSub(currentEnd, currentStart)
                        textureOffset:textureOffset
-                            startAge:lastPoint.age - (timeInterval * count)];
+                            startAge:0];
 
             // update
             lastPos = newPos;
