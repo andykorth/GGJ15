@@ -153,7 +153,7 @@
     [self updateShootBar];
     
     const cpFloat forwardAcceleration = 600.0;
-    const cpFloat maxForwardSpeed = 400.0;
+    const cpFloat maxForwardSpeed = 800.0;
     
     // Maximum rotation speed when traveling at the maximum speed.
     const cpFloat maxRotationSpeed = 5.0;
@@ -188,9 +188,8 @@
     
     self.physicsBody.velocity = cpTransformVect(transform, velocity);
     
-    // Direction of rotation to apply to the player.
-    
     // Now handle the rotational velocity.
+    // This gets pretty hairy to make it "Feel right".
     cpFloat angularVelocity = body.angularVelocity;
     
     // Plane turns better the faster you are going.
@@ -198,10 +197,10 @@
     cpFloat controlRotation = maxRotationSpeed*_turn*controlCoefficient;
     
     // Rotation due to the movement of the center of drag.
-    cpFloat dragRotation = velocity.y/codOffset;
+    cpFloat dragRotation = (1.0 - _thrust)*velocity.y/codOffset;
     
     body.angularVelocity = cpflerp(
-        cpflerp(dragRotation, angularVelocity, pow(0.8, delta)),
+        cpflerp(dragRotation, angularVelocity, pow(0.2, delta)),
         controlRotation,
         fabs(_turn)
     );
