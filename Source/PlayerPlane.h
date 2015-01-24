@@ -10,6 +10,8 @@
 @property(nonatomic) int playerNumber;
 @property(nonatomic, weak) MainScene *mainScene;
 
+@property(nonatomic) float health;
+
 
 
 @end

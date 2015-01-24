@@ -33,6 +33,8 @@
     _shootCostPerGun = 0.1f;
     _shootCostPerBomb = 0.1f;
     
+    _health = 1.0f;
+    
     self.physicsBody.friction = 0.0;
     self.physicsBody.collisionGroup = self;
     
@@ -147,10 +149,16 @@
     [_mainScene setWeaponBar:_shootTimer forPlayer:_playerNumber];
 }
 
+-(void) updateHealthBar
+{
+    [_mainScene setHealthBar:_health forPlayer:_playerNumber];
+}
+
 - (void) fixedUpdate:(CCTime)delta
 {
     _shootTimer = MIN(1.0f, _shootTimer + delta * _shootChargeRate);
     [self updateShootBar];
+    [self updateHealthBar];
     
     const cpFloat forwardAcceleration = 800.0;
     const cpFloat maxForwardSpeed = 800.0;

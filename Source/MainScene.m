@@ -89,6 +89,15 @@ static const float MinBarWidth = 5.0;
     float width = alpha*size.width;
     bar.contentSize = CGSizeMake(MAX(width, MinBarWidth), size.height);
 }
+-(void)setHealthBar:(float) alpha forPlayer:(int) player
+{
+    CCNode * bar = player == 0 ? _shieldBar1 : _shieldBar2;
+    
+    CGSize size = bar.parent.contentSize;
+    float width = alpha*size.width;
+    bar.contentSize = CGSizeMake(MAX(width, MinBarWidth), size.height);
+}
+
 
 -(void)onEnter
 {
@@ -120,10 +129,12 @@ static const float MinBarWidth = 5.0;
     return false;
 }
 
--(BOOL)ccPhysicsCollisionBegin:(CCPhysicsCollisionPair *)pair player:(PlayerPlane *)wall bullet:(Bullet *)bullet
+-(BOOL)ccPhysicsCollisionBegin:(CCPhysicsCollisionPair *)pair player:(PlayerPlane *)player bullet:(Bullet *)bullet
 {
     [bullet destroy];
     NSLog(@"hit!");
+    
+    player.health -= 0.1f;
     
     return true;
 }

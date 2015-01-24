@@ -18,6 +18,6 @@
 @property (nonatomic, strong) CCNode *weaponBar2;
 
 -(void)setWeaponBar:(float) alpha forPlayer:(int) player;
-
+-(void)setHealthBar:(float) alpha forPlayer:(int) player;
 
 @end
