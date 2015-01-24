@@ -23,8 +23,6 @@
     
     float _thrust;
     float _turn;
-    
-    CCEffectLine *_trail;
 }
 
 
@@ -45,54 +43,11 @@
     self.userInteractionEnabled= true;
 }
 
--(void)onEnter
-{
-    [super onEnter];
-    
-    // TODO this is a terrible hack
-    [self scheduleBlock:^(CCTimer *timer) {
-        _trail = [CCEffectLine lineWithDictionary:@{
-            @"name"               : @"Free Hand Drawing",
-            @"image"              : @"effects.png",
-            @"lineMode"           : @(CCEffectLineModePointToPoint),
-            @"widthMode"          : @(CCEffectLineWidthSpeed),
-            @"widthStart"         : @(2.0),
-            @"widthEnd"           : @(50.0),
-            // textures used
-            @"textureCount"       : @(8),
-            @"textureIndex"       : @(2),
-            @"textureList"        : @[],
-            @"textureMix"         : @(CCEffectLineTextureSimple),
-            @"textureAnimation"   : @(CCEffectLineAnimationScroll),
-            @"textureScroll"      : @(0.00f),
-            @"textureMixTime"     : @(1.00f),
-            @"textureScale"       : @(1.0),
-            // texture mixing
-            @"life"               : @(1.0f),
-            @"autoRemove"         : @(YES),
-            @"smooth"             : @(YES),
-            @"speedMultiplyer"    : @(0.50f),
-            @"granularity"        : @(1.0f),
-            @"drawLineStart"      : @(YES),
-            @"drawLineEnd"        : @(YES),
-            @"wind"               : @"{0, 0}",
-            @"gravity"            : @"{0, 0}",
-            @"colorStart"         : @"{1.0, 1.0, 0.3, 1.0}",
-            @"colorEnd"           : @"{0.5, 0.5, 0.0, 0.0}",
-       }];
-        
-        [_trail start:self.position timestamp:self.scene.scheduler.currentTime];
-        
-        [self.parent addChild:_trail];
-    } delay:0.0];
-}
-
 -(void)onExit
 {
     [super onExit];
     
     [self cancelBombs];
-    [_trail removeFromParent];
 }
 
 -(void)setPlayerNumber:(int)playerNumber
@@ -260,11 +215,6 @@
         controlRotation,
         fabs(_turn)
     );
-}
-
--(void)update:(CCTime)delta
-{
-    [_trail add:self.position timestamp:self.scene.scheduler.currentTime];
 }
 
 @end
