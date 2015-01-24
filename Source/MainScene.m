@@ -15,6 +15,7 @@
     
     _player1 = (PlayerPlane *)[CCBReader load:@"Plane"];
     _player1.position = ccp(500, 500);
+    ((PlayerPlane *)_player1.children[0]).playerNumber = 0;
     [_physicsNode addChild:_player1];
 
     // todo fix node class
