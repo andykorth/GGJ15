@@ -5,4 +5,6 @@
 
 @property(nonatomic) NSMutableDictionary *keyDowns;
 
+@property(nonatomic) int playerNumber;
+
 @end

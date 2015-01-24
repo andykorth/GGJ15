@@ -7,7 +7,6 @@
 
 - (void) didLoadFromCCB
 {
-    
     _keyDowns = [NSMutableDictionary dictionary];
     
     self.userInteractionEnabled= true;
@@ -27,17 +26,17 @@
 
 - (void) update:(CCTime)delta
 {
-    if(_keyDowns[@(13)]){ //w
+    if(_keyDowns[_playerNumber == 0 ? @(13) : @(126)]){ //w
         GLKVector4 v = GLKMatrix4MultiplyVector4(self.nodeToParentMatrix, GLKVector4Make(1, 0, 0, 0));
         self.physicsBody.velocity = ccp(-v.x * 40.0f, -v.y * 40.0f);
     }
-    if(_keyDowns[@(0)]){ //a
+    if(_keyDowns[_playerNumber == 0 ? @(0) : @(123)]){ //a
         self.rotation = self.rotation += delta * -200.0f;
     }
-    if(_keyDowns[@(1)]){ //s
+    if(_keyDowns[_playerNumber == 0 ? @(1) : @(125)]){ //s
         // air brake?
     }
-    if(_keyDowns[@(2)]){ //d
+    if(_keyDowns[_playerNumber == 0 ? @(2) : @(124)]){ //d
         self.rotation = self.rotation += delta * 200.0f;
     }
     
