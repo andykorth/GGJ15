@@ -43,10 +43,6 @@
 //        cpVect forward = cpv(-transform.a, -transform.b);
 //        cpVect up = cpv(transform.c, transform.d);
     
-    // Stupid hack to flip the transform since the ship points against the x-axis.
-    transform.a = -transform.a;
-    transform.b = -transform.b;
-    
     // Get the local velocity. (+x is forward, +y is up)
     cpVect velocity = cpTransformVect(cpTransformInverse(transform), body.velocity);
     
@@ -83,7 +79,7 @@
     cpFloat controlRotation = maxRotationSpeed*rotation*controlCoefficient;
     
     // Rotation due to the movement of the center of drag.
-    cpFloat dragRotation = -velocity.y/codOffset;
+    cpFloat dragRotation = velocity.y/codOffset;
     
     cpFloat targetAngularVelocity = cpflerp(dragRotation, controlRotation, fabs(rotation));
     body.angularVelocity = cpflerp(
