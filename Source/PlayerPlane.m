@@ -135,10 +135,9 @@
             }
             _shootTimer -= _shootCostPerBomb;
             
-            Bomb *bomb = [[Bomb alloc] initWithGroup:self];
-            bomb.position = self.position;
-            
-            bomb.physicsBody.velocity = self.physicsBody.velocity;
+            Bomb *bomb = (Bomb*)  [CCBReader load:self.playerNumber == 0 ? @"RedBomb" : @"BlueBomb"];
+            [bomb setup:self];
+
             [self.parent addChild:bomb];
             [timer repeatOnceWithInterval:0.1];
         } delay:0];

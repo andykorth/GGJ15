@@ -1,9 +1,10 @@
 #import "cocos2d.h"
 
-@interface Bomb : CCNode
+@class PlayerPlane;
 
--(id)initWithGroup:(id)group;
+@interface Bomb : CCSprite
 
+-(void) setup:(PlayerPlane *)plane;
 -(void)destroy;
 
 @end
