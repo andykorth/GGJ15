@@ -26,7 +26,7 @@
     
     CCDirectorMac *director = (CCDirectorMac*) self.glView.director;
 
-    [director reshapeProjection: defaultWindowSize];
+    [director reshapeProjection: CC_SIZE_SCALE(defaultWindowSize, director.contentScaleFactor)];
     
     // enable FPS and SPF
     // [director setDisplayStats:YES];

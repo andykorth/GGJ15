@@ -1,4 +1,5 @@
 #import "PlayerPlane.h"
+#import "ObjectiveChipmunk/ObjectiveChipmunk.h"
 
 @implementation PlayerPlane{
 
@@ -27,8 +28,12 @@
 - (void) update:(CCTime)delta
 {
     if(_keyDowns[_playerNumber == 0 ? @(13) : @(126)]){ //w
-        GLKVector4 v = GLKMatrix4MultiplyVector4(self.nodeToParentMatrix, GLKVector4Make(1, 0, 0, 0));
-        self.physicsBody.velocity = ccp(-v.x * 40.0f, -v.y * 40.0f);
+        GLKVector4 forward = GLKMatrix4MultiplyVector4(self.nodeToParentMatrix, GLKVector4Make(-1, 0, 0, 0));
+        
+        cpFloat acceleration = 500.0;
+        cpVect desiredVelocity = cpvmult(cpv(forward.x, forward.y), 40.0);
+        
+        self.physicsBody.velocity = cpvlerpconst(self.physicsBody.velocity, desiredVelocity, acceleration*delta);
     }
     if(_keyDowns[_playerNumber == 0 ? @(0) : @(123)]){ //a
         self.rotation = self.rotation += delta * -200.0f;
