@@ -1,4 +1,5 @@
 #import "Bomb.h"
+#import "CCPhysics+ObjectiveChipmunk.h"
 
 @implementation Bomb
 
@@ -7,7 +8,7 @@
     if((self = [super init])){
         CCPhysicsBody *body = [CCPhysicsBody bodyWithCircleOfRadius:5.0 andCenter:CGPointZero];
         body.collisionGroup = group;
-        body.collisionType = @"bomb";
+        body.collisionType = @"bullet";
         
         self.physicsBody = body;
     }
@@ -19,6 +20,13 @@
 {
     [super onEnter];
     [self scheduleBlock:^(CCTimer *timer){[self destroy];} delay:5.0];
+}
+
+-(void)fixedUpdate:(CCTime)delta
+{
+    CCPhysicsBody *body = self.physicsBody;
+    
+    body.velocity = cpvmult(body.velocity, pow(0.75, delta));
 }
 
 -(void)destroy

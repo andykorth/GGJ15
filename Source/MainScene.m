@@ -1,6 +1,9 @@
 #import "MainScene.h"
 #import "CCScene+Private.h"
 
+#import "Bullet.h"
+#import "Bomb.h"
+
 @implementation MainScene
 {
     // HUD elements
@@ -26,6 +29,8 @@
     _title.string = @"";
 
     _physicsNode.debugDraw = YES;
+    _physicsNode.collisionDelegate = self;
+    
 //    _gradient.visible = false;
     _gradient.zOrder = -10;
     
@@ -51,6 +56,7 @@
             [CCPhysicsShape pillShapeFrom:ccp(w,  0) to:ccp(w, h) cornerRadius:6.0f],
             [CCPhysicsShape pillShapeFrom:ccp(0,  h) to:ccp(w, h) cornerRadius:6.0f],
         ]];
+        body.collisionType = @"wall";
         
         body.type = CCPhysicsBodyTypeStatic;
         CCNode * bounds = [CCNode node];
@@ -96,6 +102,22 @@ static const float MinBarWidth = 5.0;
 - (void)keyUp:(NSEvent *)theEvent
 {
     
+}
+
+-(BOOL)ccPhysicsCollisionBegin:(CCPhysicsCollisionPair *)pair wall:(CCNode *)wall bullet:(Bullet *)bullet
+{
+    // TODO this is using duck typing...
+    [bullet destroy];
+    
+    return false;
+}
+
+-(BOOL)ccPhysicsCollisionBegin:(CCPhysicsCollisionPair *)pair player:(PlayerPlane *)wall bullet:(Bullet *)bullet
+{
+    [bullet destroy];
+    NSLog(@"hit!");
+    
+    return true;
 }
 
 @end

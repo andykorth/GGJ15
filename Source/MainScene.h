@@ -2,7 +2,7 @@
 #import "cocos2d.h"
 #import "PlayerPlane.h"
 
-@interface MainScene : CCScene
+@interface MainScene : CCScene<CCPhysicsCollisionDelegate>
 
 @property (nonatomic,strong) CCLabelTTF* title;
 

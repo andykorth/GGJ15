@@ -4,4 +4,6 @@
 
 -(id)initWithGroup:(id)group;
 
+-(void)destroy;
+
 @end

@@ -18,6 +18,9 @@
     float _shootChargeRate;
     
     CCTimer *_bombTimer;
+    
+    float _thrust;
+    float _turn;
 }
 
 
@@ -124,6 +127,21 @@
     _bombTimer = nil;
 }
 
+-(void)updateInput:(CCTime)delta
+{
+    const float thrustInterval = 0.25;
+    const float turnInterval = 0.25;
+    
+    // Update input values.
+    _thrust = cpflerpconst(_thrust, _keyDowns[_thrustKey] ? 1.0 : 0.0, delta/thrustInterval);
+    
+    cpFloat turn = 0.0;
+    if(_keyDowns[_leftKey]) turn += 1.0;
+    if(_keyDowns[_rightKey]) turn -= 1.0;
+    
+    _turn = cpflerpconst(_turn, turn, delta/turnInterval);
+}
+
 -(void) updateShootBar
 {
     [_mainScene setWeaponBar:_shootTimer forPlayer:_playerNumber];
@@ -144,6 +162,8 @@
     const cpFloat codOffset = 5.0;
     
     const cpVect linearDrag = cpv(0.95, 0.1);
+    
+    [self updateInput:delta];
     
     CCPhysicsBody *body = self.physicsBody;
     cpTransform transform = body.body.transform;
@@ -169,30 +189,21 @@
     self.physicsBody.velocity = cpTransformVect(transform, velocity);
     
     // Direction of rotation to apply to the player.
-    cpFloat rotation = 0.0;
-    
-    if(_keyDowns[_leftKey]){ //a
-        rotation += 1.0;
-    }
-    if(_keyDowns[_rightKey]){ //d
-        rotation -= 1.0;
-    }
     
     // Now handle the rotational velocity.
     cpFloat angularVelocity = body.angularVelocity;
     
     // Plane turns better the faster you are going.
     cpFloat controlCoefficient = fmax(fabs(velocity.x/maxForwardSpeed), 0.1);
-    cpFloat controlRotation = maxRotationSpeed*rotation*controlCoefficient;
+    cpFloat controlRotation = maxRotationSpeed*_turn*controlCoefficient;
     
     // Rotation due to the movement of the center of drag.
     cpFloat dragRotation = velocity.y/codOffset;
     
-    cpFloat targetAngularVelocity = cpflerp(dragRotation, controlRotation, fabs(rotation));
     body.angularVelocity = cpflerp(
         cpflerp(dragRotation, angularVelocity, pow(0.8, delta)),
         controlRotation,
-        fabs(rotation)
+        fabs(_turn)
     );
 }
 
