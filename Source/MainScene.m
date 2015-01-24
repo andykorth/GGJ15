@@ -35,14 +35,14 @@
     _gradient.zOrder = -10;
     
     _player1 = (PlayerPlane *)[CCBReader load:@"Plane"];
-    _player1.position = ccp(500, 500);
+    _player1.position = ccp(w - 150, 500);
     _player1.playerNumber = 0;
     _player1.scale = 2.0f;
     _player1.mainScene = self;
     [_physicsNode addChild:_player1];
 
     _player2 = (PlayerPlane *)[CCBReader load:@"Plane"];
-    _player2.position = ccp(100, 500);
+    _player2.position = ccp(150, 500);
     _player2.playerNumber = 1;
     _player2.scale = 2.0f;
     _player2.mainScene = self;
