@@ -61,6 +61,8 @@
             [CCPhysicsShape pillShapeFrom:ccp(0,  0) to:ccp(w, 0) cornerRadius:6.0f],
             [CCPhysicsShape pillShapeFrom:ccp(w,  0) to:ccp(w, h) cornerRadius:6.0f],
             [CCPhysicsShape pillShapeFrom:ccp(0,  h) to:ccp(w, h) cornerRadius:6.0f],
+            [CCPhysicsShape pillShapeFrom:ccp(0, 100) to:ccp(100, 0) cornerRadius:6.0f],
+            [CCPhysicsShape pillShapeFrom:ccp(w, 100) to:ccp(w - 100, 0) cornerRadius:6.0f],
         ]];
         body.collisionType = @"wall";
         
