@@ -26,9 +26,9 @@
     _keyDowns = [NSMutableDictionary dictionary];
     
     _shootTimer = 1.0f;
-    _shootChargeRate = 0.2f;
+    _shootChargeRate = 0.3f;
     _shootCostPerGun = 0.1f;
-    _shootCostPerBomb = 0.2f;
+    _shootCostPerBomb = 0.1f;
     
     self.physicsBody.friction = 0.0;
     self.physicsBody.collisionGroup = self;
