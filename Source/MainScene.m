@@ -15,6 +15,7 @@
 }
 
 #define Z_HUD 10
+#define Z_EFFECTS 100
 
 - (void) didLoadFromCCB
 {
@@ -134,11 +135,20 @@ static const float MinBarWidth = 5.0;
 
 -(BOOL)ccPhysicsCollisionBegin:(CCPhysicsCollisionPair *)pair player:(PlayerPlane *)player bullet:(Bullet *)bullet
 {
-    [bullet destroy];
     NSLog(@"hit!");
     
-    player.health -= 0.1f;
+    CCNode* explosion = [CCBReader load:@"Particles/BombExplosion"];
+    explosion.position = bullet.position;
+    [_physicsNode addChild:explosion z:Z_EFFECTS];
     
+    [self scheduleBlock:^(CCTimer *timer) {
+        [explosion removeFromParent];
+    } delay:3.0];
+    
+    player.health -= 0.2f;
+    
+    [bullet destroy];
+
     return true;
 }
 
