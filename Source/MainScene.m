@@ -16,6 +16,7 @@
     
     _player1 = (PlayerPlane *)[CCBReader load:@"Plane"];
     _player1.position = ccp(500, 500);
+    _player1.playerNumber = 0;
     _player1.scale = 2.0f;
     [_physicsNode addChild:_player1];
 

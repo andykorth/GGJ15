@@ -1,8 +1,15 @@
-#import "PlayerPlane.h"
 #import "CCPhysics+ObjectiveChipmunk.h"
 
-@implementation PlayerPlane{
+#import "PlayerPlane.h"
 
+#import "Bullet.h"
+
+@implementation PlayerPlane{
+    NSNumber *_thrustKey;
+    NSNumber *_leftKey;
+    NSNumber *_rightKey;
+    NSNumber *_fire1;
+    NSNumber *_fire2;
 }
 
 
@@ -10,14 +17,42 @@
 {
     _keyDowns = [NSMutableDictionary dictionary];
     
+    self.physicsBody.friction = 0.0;
+    self.physicsBody.collisionGroup = self;
+    
     self.userInteractionEnabled= true;
-//    self.physicsBody.allowsRotation = false;
+}
+
+-(void)setPlayerNumber:(int)playerNumber
+{
+    _playerNumber = playerNumber;
+    
+    if(_playerNumber == 0){
+        _thrustKey = @13;
+        _leftKey = @0;
+        _rightKey = @2;
+        _fire1 = @3;
+        _fire2 = @5;
+    } else {
+        _thrustKey = @126;
+        _leftKey = @123;
+        _rightKey = @124;
+        _fire1 = @83;
+        _fire2 = @84;
+    }
 }
 
 - (void)keyDown:(NSEvent *)theEvent
 {
 //    NSLog(@"Key down: %@", theEvent);
-    _keyDowns[@(theEvent.keyCode)] = @(true);
+    NSNumber *keyCode = @(theEvent.keyCode);
+    
+    _keyDowns[keyCode] = @(true);
+    
+    if([keyCode isEqualTo:_fire1]){
+        Bullet *bullet = [[Bullet alloc] initWithGroup:self];
+        [self.parent addChild:bullet];
+    }
 }
 
 - (void)keyUp:(NSEvent *)theEvent
@@ -50,7 +85,7 @@
     velocity.x *= pow(linearDrag.x, delta);
     velocity.y *= pow(linearDrag.y, delta);
     
-    if(_keyDowns[_playerNumber == 0 ? @(13) : @(126)]){ //w
+    if(_keyDowns[_thrustKey]){
         // Apply simple forward acceleration.
         velocity.x = cpflerpconst(velocity.x, maxForwardSpeed, forwardAcceleration*delta);
         
@@ -64,10 +99,10 @@
     // Direction of rotation to apply to the player.
     cpFloat rotation = 0.0;
     
-    if(_keyDowns[_playerNumber == 0 ? @(0) : @(123)]){ //a
+    if(_keyDowns[_leftKey]){ //a
         rotation += 1.0;
     }
-    if(_keyDowns[_playerNumber == 0 ? @(2) : @(124)]){ //d
+    if(_keyDowns[_rightKey]){ //d
         rotation -= 1.0;
     }
     
