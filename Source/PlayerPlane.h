@@ -3,5 +3,6 @@
 
 @interface PlayerPlane : CCSprite
 
+@property(nonatomic) NSMutableDictionary *keyDowns;
 
 @end
