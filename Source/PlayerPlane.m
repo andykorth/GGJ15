@@ -1,5 +1,5 @@
 #import "CCPhysics+ObjectiveChipmunk.h"
-
+#import "MainScene.h"
 #import "PlayerPlane.h"
 
 #import "Bullet.h"
@@ -11,6 +11,11 @@
     NSNumber *_rightKey;
     NSNumber *_fire1;
     NSNumber *_fire2;
+
+    float _shootTimer;
+    float _shootCostPerGun;
+    float _shootCostPerBomb;
+    float _shootChargeRate;
     
     CCTimer *_bombTimer;
     
@@ -22,6 +27,11 @@
 - (void) didLoadFromCCB
 {
     _keyDowns = [NSMutableDictionary dictionary];
+    
+    _shootTimer = 1.0f;
+    _shootChargeRate = 0.2f;
+    _shootCostPerGun = 0.1f;
+    _shootCostPerBomb = 0.2f;
     
     self.physicsBody.friction = 0.0;
     self.physicsBody.collisionGroup = self;
@@ -64,27 +74,40 @@
     _keyDowns[keyCode] = @(true);
     
     if([keyCode isEqualTo:_fire1]){
-        Bullet *bullet = [[Bullet alloc] initWithGroup:self];
-        bullet.position = self.position;
-        
-        cpVect baseVelocity = self.physicsBody.velocity;
-        cpVect muzzleVelocity = cpTransformVect(self.physicsBody.body.transform, cpv(600.0, 0.0));
-        bullet.physicsBody.velocity = cpvadd(baseVelocity, muzzleVelocity);
-        [self.parent addChild:bullet];
+        [self shoot];
     }
     
     if([keyCode isEqualTo:_fire2]){
         _bombTimer = [self scheduleBlock:^(CCTimer *timer) {
+            
+            if(_shootTimer <= _shootCostPerBomb){
+                return;
+            }
+            _shootTimer -= _shootCostPerBomb;
+            
             Bomb *bomb = [[Bomb alloc] initWithGroup:self];
             bomb.position = self.position;
             
             bomb.physicsBody.velocity = self.physicsBody.velocity;
             [self.parent addChild:bomb];
+            [timer repeatOnceWithInterval:0.1];
         } delay:0];
-        
-        _bombTimer.repeatCount = 5;
-        _bombTimer.repeatInterval = 0.05;
     }
+}
+
+-(void) shoot
+{
+    if(_shootTimer <= _shootCostPerGun){
+        return;
+    }
+    _shootTimer -= _shootCostPerGun;
+    Bullet *bullet = [[Bullet alloc] initWithGroup:self];
+    bullet.position = self.position;
+    
+    cpVect baseVelocity = self.physicsBody.velocity;
+    cpVect muzzleVelocity = cpTransformVect(self.physicsBody.body.transform, cpv(600.0, 0.0));
+    bullet.physicsBody.velocity = cpvadd(baseVelocity, muzzleVelocity);
+    [self.parent addChild:bullet];
 }
 
 - (void)keyUp:(NSEvent *)theEvent
@@ -119,8 +142,16 @@
     _turn = cpflerpconst(_turn, turn, delta/turnInterval);
 }
 
+-(void) updateShootBar
+{
+    [_mainScene setWeaponBar:_shootTimer forPlayer:_playerNumber];
+}
+
 - (void) fixedUpdate:(CCTime)delta
 {
+    _shootTimer = MIN(1.0f, _shootTimer + delta * _shootChargeRate);
+    [self updateShootBar];
+    
     const cpFloat forwardAcceleration = 600.0;
     const cpFloat maxForwardSpeed = 400.0;
     
@@ -175,5 +206,6 @@
         fabs(_turn)
     );
 }
+
 
 @end

@@ -78,6 +78,13 @@
 			<key>previewFolderHidden</key>
 			<true/>
 		</dict>
+		<key>Art</key>
+		<dict>
+			<key>isSmartSpriteSheet</key>
+			<true/>
+			<key>trimSprites</key>
+			<true/>
+		</dict>
 		<key>Sprites</key>
 		<dict/>
 		<key>ccbResources</key>

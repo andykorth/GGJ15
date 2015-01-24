@@ -22,7 +22,8 @@
     
     [self.window setFrame:CGRectMake(0.0f, 0.0f, defaultWindowSize.width, defaultWindowSize.height) display:true animate:false];
 
-    [self.glView setFrame:self.window.frame];
+    CGRect contentRect = [NSWindow contentRectForFrameRect: self.window.frame styleMask: NSTitledWindowMask];
+    [self.glView setFrame:contentRect];
     [self.window makeFirstResponder:self.glView];
     
     CCDirectorMac *director = (CCDirectorMac*) self.glView.director;
@@ -48,7 +49,7 @@
     [[CCPackageManager sharedManager] loadPackages];
     
     [CCDirector bindDirector:director];
-    [director presentScene:[CCBReader loadAsScene:@"MainScene"]];
+    [director presentScene:(CCScene*)[CCBReader load:@"MainScene"]];
     [CCDirector bindDirector:nil];
 }
 
