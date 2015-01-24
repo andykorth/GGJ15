@@ -1,6 +1,6 @@
 #import "cocos2d.h"
 
-@interface Bullet : CCNode
+@interface Bomb : CCNode
 
 -(id)initWithGroup:(id)group;
 
