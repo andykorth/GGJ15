@@ -1,5 +1,5 @@
 #import "CCPhysics+ObjectiveChipmunk.h"
-
+#import "MainScene.h"
 #import "PlayerPlane.h"
 
 #import "Bullet.h"
@@ -10,6 +10,8 @@
     NSNumber *_rightKey;
     NSNumber *_fire1;
     NSNumber *_fire2;
+    
+    MainScene *_scene;
 }
 
 
