@@ -16,7 +16,13 @@
     _player1 = (PlayerPlane *)[CCBReader load:@"Plane"];
     _player1.position = ccp(30, 30);
     [_physicsNode addChild:_player1];
-    
+
+    // todo fix node class
+    _player2 = [CCBReader load:@"Plane"];
+    _player2.position = ccp(30, 30);
+    ((PlayerPlane *)_player2.children[0]).playerNumber = 1;
+    [_physicsNode addChild:_player2];
+
     {
         float w = 1000;
         float h = 800;
