@@ -4,6 +4,8 @@
 #import "Bullet.h"
 #import "Bomb.h"
 
+#import "StatusNode.h"
+
 @implementation MainScene
 {
     // HUD elements
@@ -48,6 +50,11 @@
     _player2.mainScene = self;
     [_physicsNode addChild:_player2];
 
+    _player1Status = (StatusNode *)[CCBReader load:@"StatusNode"];
+    [_physicsNode addChild:_player1Status];
+    
+    _player2Status = (StatusNode *)[CCBReader load:@"StatusNode"];
+    [_physicsNode addChild:_player2Status];
     
     CCNode *airship = (CCSprite *)[CCBReader load:@"airship"];
     airship.position = ccp(w/2.0f, h/2.0f);
@@ -83,19 +90,14 @@ static const float MinBarWidth = 5.0;
 
 -(void)setWeaponBar:(float) alpha forPlayer:(int) player
 {
-    CCNode * bar = player == 0 ? _weaponBar1 : _weaponBar2;
-    
-    CGSize size = bar.parent.contentSize;
-    float width = alpha*size.width;
-    bar.contentSize = CGSizeMake(MAX(width, MinBarWidth), size.height);
+    StatusNode * bar = player == 0 ? _player1Status : _player2Status;
+    [bar setWeaponBarAmount:alpha];
 }
+
 -(void)setHealthBar:(float) alpha forPlayer:(int) player
 {
-    CCNode * bar = player == 0 ? _shieldBar1 : _shieldBar2;
-    
-    CGSize size = bar.parent.contentSize;
-    float width = alpha*size.width;
-    bar.contentSize = CGSizeMake(MAX(width, MinBarWidth), size.height);
+    StatusNode * bar = player == 0 ? _player1Status : _player2Status;
+    [bar setHealthBarAmount:alpha];
 }
 
 
@@ -108,7 +110,8 @@ static const float MinBarWidth = 5.0;
 
 -(void)update:(CCTime)delta
 {
-    
+    _player1Status.position = _player1.position;
+    _player2Status.position = _player2.position;
 }
 
 - (void)keyDown:(NSEvent *)theEvent

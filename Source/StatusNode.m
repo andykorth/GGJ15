@@ -1,29 +1,25 @@
-#import "Bullet.h"
+#import "StatusNode.h"
 
-@implementation Bullet
+@implementation StatusNode
 
--(id)initWithGroup:(id)group;
-{
-    if((self = [super init])){
-        CCPhysicsBody *body = [CCPhysicsBody bodyWithCircleOfRadius:5.0 andCenter:CGPointZero];
-        body.collisionGroup = group;
-        body.collisionType = @"bullet";
-        
-        self.physicsBody = body;
-    }
-    
-    return self;
-}
-
--(void)onEnter
-{
-    [super onEnter];
-    [self scheduleBlock:^(CCTimer *timer){[self destroy];} delay:1.0];
-}
 
 -(void)destroy
 {
 	[self removeFromParent];
+}
+
+-(void)setWeaponBarAmount:(float) alpha
+{
+    CGSize size = _healthBar.contentSize;
+    float width = alpha*size.width;
+    _healthBar.contentSize = CGSizeMake(width, size.height);
+}
+
+-(void)setHealthBarAmount:(float) alpha
+{
+    CGSize size = _weaponBar.parent.contentSize;
+    float width = alpha*size.width;
+    _weaponBar.contentSize = CGSizeMake(width, size.height);
 }
 
 

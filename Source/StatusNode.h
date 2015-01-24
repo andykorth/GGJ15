@@ -1,9 +1,12 @@
 #import "cocos2d.h"
 
-@interface Bullet : CCNode
+@interface StatusNode : CCNode
 
--(id)initWithGroup:(id)group;
+@property(nonatomic) CCNode * weaponBar;
+@property(nonatomic) CCNode * healthBar;
 
--(void)destroy;
+-(void)setWeaponBarAmount:(float) alpha;
+-(void)setHealthBarAmount:(float) alpha;
+
 
 @end
