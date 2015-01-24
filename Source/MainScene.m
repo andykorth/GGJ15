@@ -6,6 +6,10 @@
 {
     [self setUserInteractionEnabled:true];
     _title.string = @"No key";
+    
+    _player1 = (PlayerPlane *)[CCBReader load:@"Plane"];
+    _player1.position = ccp(0, 0);
+    [self addChild:_player1];
 }
 
 
