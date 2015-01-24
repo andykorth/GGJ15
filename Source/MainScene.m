@@ -8,20 +8,22 @@
 {
     
     [self setUserInteractionEnabled:true];
-    _title.string = @"No key";
+    _title.string = @"";
 
     _physicsNode.debugDraw = YES;
-    _gradient.visible = false;
+//    _gradient.visible = false;
+    _gradient.zOrder = -100;
     
     _player1 = (PlayerPlane *)[CCBReader load:@"Plane"];
     _player1.position = ccp(500, 500);
-    ((PlayerPlane *)_player1.children[0]).playerNumber = 0;
+    _player1.playerNumber = 0;
+    _player1.scale = 2.0f;
     [_physicsNode addChild:_player1];
 
-    // todo fix node class
     _player2 = (PlayerPlane *)[CCBReader load:@"Plane"];
     _player2.position = ccp(30, 30);
-    ((PlayerPlane *)_player2.children[0]).playerNumber = 1;
+    _player2.playerNumber = 1;
+    _player2.scale = 2.0f;
     [_physicsNode addChild:_player2];
 
     {
