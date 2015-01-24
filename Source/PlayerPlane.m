@@ -51,6 +51,11 @@
     
     if([keyCode isEqualTo:_fire1]){
         Bullet *bullet = [[Bullet alloc] initWithGroup:self];
+        bullet.position = self.position;
+        
+        cpVect baseVelocity = self.physicsBody.velocity;
+        cpVect muzzleVelocity = cpTransformVect(self.physicsBody.body.transform, cpv(600.0, 0.0));
+        bullet.physicsBody.velocity = cpvadd(baseVelocity, muzzleVelocity);
         [self.parent addChild:bullet];
     }
 }
@@ -60,7 +65,7 @@
     [_keyDowns removeObjectForKey:@(theEvent.keyCode)];
 }
 
-- (void) update:(CCTime)delta
+- (void) fixedUpdate:(CCTime)delta
 {
     const cpFloat forwardAcceleration = 600.0;
     const cpFloat maxForwardSpeed = 400.0;
