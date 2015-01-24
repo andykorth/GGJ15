@@ -10,14 +10,22 @@
     NSNumber *_rightKey;
     NSNumber *_fire1;
     NSNumber *_fire2;
-    
-    MainScene *_scene;
+        
+    float _shootTimer;
+    float _shootCostPerGun;
+    float _shootCostPerBomb;
+    float _shootChargeRate;
 }
 
 
 - (void) didLoadFromCCB
 {
     _keyDowns = [NSMutableDictionary dictionary];
+    
+    _shootTimer = 1.0f;
+    _shootChargeRate = 0.2f;
+    _shootCostPerGun = 0.1f;
+    _shootCostPerBomb = 0.2f;
     
     self.physicsBody.friction = 0.0;
     self.physicsBody.collisionGroup = self;
@@ -52,14 +60,23 @@
     _keyDowns[keyCode] = @(true);
     
     if([keyCode isEqualTo:_fire1]){
-        Bullet *bullet = [[Bullet alloc] initWithGroup:self];
-        bullet.position = self.position;
-        
-        cpVect baseVelocity = self.physicsBody.velocity;
-        cpVect muzzleVelocity = cpTransformVect(self.physicsBody.body.transform, cpv(600.0, 0.0));
-        bullet.physicsBody.velocity = cpvadd(baseVelocity, muzzleVelocity);
-        [self.parent addChild:bullet];
+        [self shoot];
     }
+}
+
+-(void) shoot
+{
+    if(_shootTimer <= 0.0f){
+        return;
+    }
+    _shootTimer -= _shootCostPerGun;
+    Bullet *bullet = [[Bullet alloc] initWithGroup:self];
+    bullet.position = self.position;
+    
+    cpVect baseVelocity = self.physicsBody.velocity;
+    cpVect muzzleVelocity = cpTransformVect(self.physicsBody.body.transform, cpv(600.0, 0.0));
+    bullet.physicsBody.velocity = cpvadd(baseVelocity, muzzleVelocity);
+    [self.parent addChild:bullet];
 }
 
 - (void)keyUp:(NSEvent *)theEvent
@@ -67,8 +84,16 @@
     [_keyDowns removeObjectForKey:@(theEvent.keyCode)];
 }
 
+-(void) updateShootBar
+{
+    [_mainScene setWeaponBar:_shootTimer forPlayer:_playerNumber];
+}
+
 - (void) fixedUpdate:(CCTime)delta
 {
+    _shootTimer = MIN(1.0f, _shootTimer + delta * _shootChargeRate);
+    [self updateShootBar];
+    
     const cpFloat forwardAcceleration = 600.0;
     const cpFloat maxForwardSpeed = 400.0;
     
@@ -130,5 +155,6 @@
         fabs(rotation)
     );
 }
+
 
 @end

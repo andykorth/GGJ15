@@ -6,10 +6,10 @@
     // HUD elements
     CCLabelTTF *_player1Label;
     CCLabelTTF *_player2Label;
-    CCNode *_shieldBar;
-    CCNode *_weaponBar;
+
 }
 
+#define Z_HUD 10
 
 - (void) didLoadFromCCB
 {
@@ -33,12 +33,14 @@
     _player1.position = ccp(500, 500);
     _player1.playerNumber = 0;
     _player1.scale = 2.0f;
+    _player1.mainScene = self;
     [_physicsNode addChild:_player1];
 
     _player2 = (PlayerPlane *)[CCBReader load:@"Plane"];
     _player2.position = ccp(100, 500);
     _player2.playerNumber = 1;
     _player2.scale = 2.0f;
+    _player2.mainScene = self;
     [_physicsNode addChild:_player2];
 
     {
@@ -64,6 +66,15 @@
 
 
 static const float MinBarWidth = 5.0;
+
+-(void)setWeaponBar:(float) alpha forPlayer:(int) player
+{
+    CCNode * bar = player == 0 ? _weaponBar1 : _weaponBar2;
+    
+    CGSize size = bar.parent.contentSize;
+    float width = alpha*size.width;
+    bar.contentSize = CGSizeMake(MAX(width, MinBarWidth), size.height);
+}
 
 -(void)onEnter
 {

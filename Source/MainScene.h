@@ -11,4 +11,13 @@
 @property (nonatomic, strong) CCPhysicsNode *physicsNode;
 @property (nonatomic, strong) CCNodeGradient *gradient;
 
+@property (nonatomic, strong) CCNode *shieldBar1;
+@property (nonatomic, strong) CCNode *shieldBar2;
+
+@property (nonatomic, strong) CCNode *weaponBar1;
+@property (nonatomic, strong) CCNode *weaponBar2;
+
+-(void)setWeaponBar:(float) alpha forPlayer:(int) player;
+
+
 @end
