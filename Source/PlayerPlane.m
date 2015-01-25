@@ -33,6 +33,8 @@
     CCSprite *_topSprite;
     
     CCSprite *_flame;
+
+    CCEffectLine *_trail;
 }
 
 
@@ -55,12 +57,55 @@
     self.userInteractionEnabled= true;
 }
 
+-(void)onEnter
+{
+    [super onEnter];
+    
+    // TODO this is a terrible hack
+    [self scheduleBlock:^(CCTimer *timer) {
+        _trail = [CCEffectLine lineWithDictionary:@{
+            @"name"               : @"Free Hand Drawing",
+            @"image"              : @"effects.png",
+            @"lineMode"           : @(CCEffectLineModePointToPoint),
+            @"widthMode"          : @(CCEffectLineWidthSimple),
+            @"widthStart"         : @(5),
+            @"widthEnd"           : @(30),
+            // textures used
+            @"textureCount"       : @(8),
+            @"textureIndex"       : @(2),
+            @"textureList"        : @[],
+            @"textureMix"         : @(CCEffectLineTextureSimple),
+            @"textureAnimation"   : @(CCEffectLineAnimationScroll),
+            @"textureScroll"      : @(0.00f),
+            @"textureMixTime"     : @(1.00f),
+            @"textureScale"       : @(1.0),
+            // texture mixing
+            @"life"               : @(0.5f),
+            @"autoRemove"         : @(YES),
+            @"smooth"             : @(YES),
+            @"speedMultiplyer"    : @(0.50f),
+            @"granularity"        : @(1.0f),
+            @"drawLineStart"      : @(NO),
+            @"drawLineEnd"        : @(NO),
+            @"wind"               : @"{0, 0}",
+            @"gravity"            : @"{0, 0}",
+            @"colorStart"         : @"{1.0, 1.0, 0.3, 1.0}",
+            @"colorEnd"           : @"{0.5, 0.5, 0.0, 0.0}",
+       }];
+        
+        [_trail start:self.position timestamp:self.scene.scheduler.currentTime];
+        
+        [self.parent addChild:_trail];
+    } delay:0.0];
+}
+
 -(void)onExit
 {
     [super onExit];
     
     [self cancelBullets];
     [self cancelBombs];
+    [_trail removeFromParent];
 }
 
 static NSString const * PLAYER1_GROUP = @"Player1Group";
@@ -234,6 +279,8 @@ static NSString const * PLAYER2_GROUP = @"Player2Group";
 -(void) die
 {
     _dead = true;
+    [self cancelBombs];
+    [self cancelBullets];
 }
 
 -(void)updateInput:(CCTime)delta
@@ -350,6 +397,11 @@ static NSString const * PLAYER2_GROUP = @"Player2Group";
     
     self.flipY = (self.rotation > 90.0 && self.rotation < 270.0);
     
+}
+
+-(void)update:(CCTime)delta
+{
+    [_trail add:self.position timestamp:self.scene.scheduler.currentTime];
 }
 
 @end

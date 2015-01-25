@@ -388,8 +388,11 @@ GLKVector4 GLKVector4FromString(NSString *data)
 
 - (BOOL)add:(CGPoint)pos timestamp:(NSTimeInterval)timestamp
 {
+    float dist = ccpDistance(pos, _lastPosition);
+    if(dist < 0.001) return NO;
+    
     // calculate speed
-    float newSpeed = ccpDistance(pos, _lastPosition) / (timestamp - _lastTime) / CCEffectLineSpeedDivider;
+    float newSpeed = dist / (timestamp - _lastTime) / CCEffectLineSpeedDivider;
     _drawSpeed += (newSpeed - _drawSpeed) * CCEffectLineSpeedInterpolation;
     
     if (_lineMode == CCEffectLineModeStraight)
