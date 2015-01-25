@@ -18,7 +18,7 @@
 
     self.position = plane.position;
     self.rotation = fmod(plane.rotation + 360.0f, 360.0f);
-    self.scale = 2.0f;
+    self.scale = 1.0f;
     
     // boost it out the back of the plane:
     self.physicsBody.velocity = ccpAdd(plane.physicsBody.velocity, cpTransformVect(plane.physicsBody.body.transform, cpv(-300.0, 0.0)));
