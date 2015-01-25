@@ -68,8 +68,8 @@
             @"image"              : @"effects.png",
             @"lineMode"           : @(CCEffectLineModePointToPoint),
             @"widthMode"          : @(CCEffectLineWidthSimple),
-            @"widthStart"         : @(1),
-            @"widthEnd"           : @(50),
+            @"widthStart"         : @(5),
+            @"widthEnd"           : @(30),
             // textures used
             @"textureCount"       : @(8),
             @"textureIndex"       : @(2),
@@ -85,8 +85,8 @@
             @"smooth"             : @(YES),
             @"speedMultiplyer"    : @(0.50f),
             @"granularity"        : @(1.0f),
-            @"drawLineStart"      : @(YES),
-            @"drawLineEnd"        : @(YES),
+            @"drawLineStart"      : @(NO),
+            @"drawLineEnd"        : @(NO),
             @"wind"               : @"{0, 0}",
             @"gravity"            : @"{0, 0}",
             @"colorStart"         : @"{1.0, 1.0, 0.3, 1.0}",
@@ -279,6 +279,8 @@ static NSString const * PLAYER2_GROUP = @"Player2Group";
 -(void) die
 {
     _dead = true;
+    [self cancelBombs];
+    [self cancelBullets];
 }
 
 -(void)updateInput:(CCTime)delta
