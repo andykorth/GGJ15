@@ -80,24 +80,56 @@
 		</dict>
 		<key>Art</key>
 		<dict>
+			<key>isDirty</key>
+			<true/>
 			<key>isSmartSpriteSheet</key>
 			<true/>
 			<key>trimSprites</key>
 			<true/>
 		</dict>
-		<key>Plane2BLUE.psd</key>
+		<key>Art/Plane2BLUE.psd</key>
 		<dict>
 			<key>scaleFrom</key>
-			<integer>1</integer>
+			<integer>4</integer>
+		</dict>
+		<key>Art/airplane red final.psd</key>
+		<dict>
+			<key>scaleFrom</key>
+			<integer>4</integer>
+		</dict>
+		<key>Art/airship.png</key>
+		<dict>
+			<key>scaleFrom</key>
+			<integer>4</integer>
+		</dict>
+		<key>Art/blue_button08.png</key>
+		<dict>
+			<key>scaleFrom</key>
+			<integer>4</integer>
+		</dict>
+		<key>Art/green_button08.png</key>
+		<dict>
+			<key>scaleFrom</key>
+			<integer>4</integer>
+		</dict>
+		<key>Art/grey_button13.png</key>
+		<dict>
+			<key>scaleFrom</key>
+			<integer>4</integer>
+		</dict>
+		<key>Art/laserBlue.png</key>
+		<dict>
+			<key>scaleFrom</key>
+			<integer>2</integer>
+		</dict>
+		<key>Art/laserRed.png</key>
+		<dict>
+			<key>scaleFrom</key>
+			<integer>2</integer>
 		</dict>
 		<key>Sprites</key>
 		<dict/>
 		<key>WHOOSHBackground.png</key>
-		<dict>
-			<key>scaleFrom</key>
-			<integer>1</integer>
-		</dict>
-		<key>airplane red final.psd</key>
 		<dict>
 			<key>scaleFrom</key>
 			<integer>1</integer>
