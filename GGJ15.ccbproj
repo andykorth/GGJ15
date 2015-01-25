@@ -85,7 +85,17 @@
 			<key>trimSprites</key>
 			<true/>
 		</dict>
+		<key>Art/Plane2BLUE-TOP.psd</key>
+		<dict>
+			<key>scaleFrom</key>
+			<integer>4</integer>
+		</dict>
 		<key>Art/Plane2BLUE.psd</key>
+		<dict>
+			<key>scaleFrom</key>
+			<integer>4</integer>
+		</dict>
+		<key>Art/RedPlaneTop.psd</key>
 		<dict>
 			<key>scaleFrom</key>
 			<integer>4</integer>
