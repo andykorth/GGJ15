@@ -83,18 +83,22 @@
     _player1 = (PlayerPlane *)[CCBReader load:@"RedPlane"];
     _player1.position = ccp(w - 150, 500);
     _player1.playerNumber = 0;
-    _player1.scale = 0.5f;
+    _player1.scale = 0.3f;
     _player1.mainScene = self;
     [_physicsNode addChild:_player1 z:Z_PLAYER];
     
+    _player1Status.visible = true;
+
     if(_player2) [_player2 removeFromParentAndCleanup:true];
 
     _player2 = (PlayerPlane *)[CCBReader load:@"BluePlane"];
     _player2.position = ccp(150, 500);
     _player2.playerNumber = 1;
-    _player2.scale = 0.5f;
+    _player2.scale = 0.3f;
     _player2.mainScene = self;
     [_physicsNode addChild:_player2 z:Z_PLAYER];
+    
+    _player2Status.visible = true;
 }
 
 -(void) updateScores
@@ -160,50 +164,24 @@
     return false;
 }
 
+-(void) playerDied:(PlayerPlane *)player
+{
+    if(player == _player1){
+        _player1Status.visible = false;
+    }else{
+        _player2Status.visible = false;
+    }
+    if(player == _player1) _player2Score += 1;
+    if(player == _player2) _player1Score += 1;
+    [self updateScores];
+}
+
 -(BOOL)ccPhysicsCollisionBegin:(CCPhysicsCollisionPair *)pair player:(PlayerPlane *)player bullet:(Bullet *)bullet
 {
     NSLog(@"hit!");
     
     [self addExplosionAt:bullet.physicsBody];
-    player.health -= 0.2f;
-    
-    if(player.health < 0.0f && !player.dead)
-    {
-        [player die];
-        
-        if(player == _player1){
-            [_player1Status removeFromParent];
-        }else{
-            [_player2Status removeFromParent];
-        }
-        
-        CCNode* smoke = [CCBReader load:@"Particles/PersistingSmoke"];
-//        CCParticleSystemBase *particles = (CCParticleSystemBase*) smoke.children[0];
-//        particles.particlePositionType = CCParticleSystemPositionTypeFree;
-//        smoke.position = bullet.position;
-        [player.parent addChild:smoke z:Z_BG_EFFECTS];
-        
-        CCAction * a = [CCActionFollow actionWithTarget:player];
-        [smoke runAction:a];
-        
-        [self scheduleBlock:^(CCTimer *timer) {
-            CCNode* playerBoom = [CCBReader load:@"Particles/ShipExplosion"];
-            playerBoom.position = player.position;
-            [_physicsNode addChild:playerBoom z:Z_EFFECTS];
-            [player removeFromParent];
-            [smoke removeFromParent];
-            
-            [self scheduleBlock:^(CCTimer *timer) {
-                [playerBoom removeFromParent];
-                [self spawnPlayers];
-            } delay:2.0];
-        } delay:1.0];
-        
-        if(player == _player1) _player2Score += 1;
-        if(player == _player2) _player1Score += 1;
-        [self updateScores];
-        
-    }
+    [player takeDamage:0.2f];
     
     [bullet destroy];
 

@@ -110,7 +110,7 @@
 		<key>Art/bomb.png</key>
 		<dict>
 			<key>scaleFrom</key>
-			<integer>2</integer>
+			<integer>4</integer>
 		</dict>
 		<key>Art/bombBlue.psd</key>
 		<dict>

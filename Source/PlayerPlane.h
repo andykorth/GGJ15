@@ -15,6 +15,6 @@
 @property(nonatomic) bool dead;
 
 -(void) die;
-
+-(void) takeDamage:(float) dmg;
 
 @end

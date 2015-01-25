@@ -22,7 +22,7 @@
     self.scale = 1.0f;
     
     // boost it out the back of the plane:
-    self.physicsBody.velocity = ccpAdd(plane.physicsBody.velocity, cpTransformVect(plane.physicsBody.body.transform, cpv(-300.0, 0.0)));
+    self.physicsBody.velocity = ccpAdd(plane.physicsBody.velocity, cpTransformVect(plane.physicsBody.body.transform, cpv(-200.0, 0.0)));
     
     
     // start explosion timer:
@@ -45,7 +45,8 @@
     [physics pointQueryAt:body.absolutePosition within:40.0 block:^(CCPhysicsShape *shape, CGPoint nearest, CGFloat distance) {
         CCNode *node = shape.node;
         if(shape.collisionGroup != body.collisionGroup && [node isKindOfClass:[PlayerPlane class]]){
-            ((PlayerPlane *)node).health -= 0.2f;
+            
+            [((PlayerPlane *)node) takeDamage:0.2];
             [self destroy];
         }
     }];

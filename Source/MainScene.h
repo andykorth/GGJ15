@@ -31,4 +31,7 @@ enum Z_ORDER {
 
 -(void)addExplosionAt:(CCPhysicsBody *)body;
 
+-(void) playerDied:(PlayerPlane *)player;
+-(void) spawnPlayers;
+
 @end

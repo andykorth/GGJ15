@@ -150,6 +150,46 @@
     _bombTimer = nil;
 }
 
+-(void) takeDamage:(float) dmg
+{
+    self.health -= dmg;
+    if(self.health <= 0.0f && !self.dead)
+    {
+        [self die];
+        [_mainScene playerDied:self];
+        
+        CCNode* smoke = [CCBReader load:@"Particles/PersistingSmoke"];
+        //        CCParticleSystemBase *particles = (CCParticleSystemBase*) smoke.children[0];
+        //        particles.particlePositionType = CCParticleSystemPositionTypeFree;
+        //        smoke.position = bullet.position;
+        [_mainScene addChild:smoke z:Z_BG_EFFECTS];
+        
+        CCAction * a = [CCActionFollow actionWithTarget:self];
+        [smoke runAction:a];
+        
+        [self scheduleBlock:^(CCTimer *timer) {
+            __block CCNode* playerBoom = [CCBReader load:@"Particles/ShipExplosion"];
+            playerBoom.position = self.position;
+            [_mainScene.physicsNode addChild:playerBoom z:Z_EFFECTS];
+             [smoke removeFromParent];
+            
+            // need to retain these for the block since self gets removed from parent.
+            __block MainScene* blockScene = _mainScene;
+            
+            [_mainScene scheduleBlock:^(CCTimer *timer) {
+                [playerBoom removeFromParent];
+                [blockScene spawnPlayers];
+            } delay:2.0];
+            
+            [self removeFromParent];
+            
+        } delay:1.0];
+        
+        
+        
+    }
+}
+
 -(void) die
 {
     _dead = true;
@@ -192,7 +232,7 @@
     [self updateHealthBar];
     
     const cpFloat forwardAcceleration = 1000.0;
-    const cpFloat maxForwardSpeed = 800.0;
+    const cpFloat maxForwardSpeed = 550.0;
     
     // Maximum rotation speed when traveling at the maximum speed.
     const cpFloat maxRotationSpeed = 5.0;
@@ -237,6 +277,9 @@
     
     // Rotation due to the movement of the center of drag.
     cpFloat dragRotation = (1.0 - _thrust)*velocity.y/codOffset;
+    
+    // andy disabled this:
+    dragRotation = angularVelocity;
     
     body.angularVelocity = cpflerp(
         cpflerp(dragRotation, angularVelocity, pow(0.8, delta)),
