@@ -18,7 +18,7 @@
     
     self.position = plane.position;
     self.rotation = plane.rotation;
-    self.scale = 2.0f;
+    self.scale = 1.0f;
 }
 
 -(void)onEnter

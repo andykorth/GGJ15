@@ -63,7 +63,7 @@
 	<key>publishToZipFile</key>
 	<false/>
 	<key>resourceAutoScaleFactor</key>
-	<integer>4</integer>
+	<integer>1</integer>
 	<key>resourcePaths</key>
 	<array>
 		<dict>
@@ -80,24 +80,27 @@
 		</dict>
 		<key>Art</key>
 		<dict>
-			<key>isDirty</key>
-			<true/>
 			<key>isSmartSpriteSheet</key>
 			<true/>
 			<key>trimSprites</key>
 			<true/>
 		</dict>
+		<key>Plane2BLUE.psd</key>
+		<dict>
+			<key>scaleFrom</key>
+			<integer>1</integer>
+		</dict>
 		<key>Sprites</key>
 		<dict/>
-		<key>WHOOSHBackgroundCanyon.png</key>
+		<key>WHOOSHBackground.png</key>
 		<dict>
 			<key>scaleFrom</key>
-			<integer>2</integer>
+			<integer>1</integer>
 		</dict>
-		<key>WHOOSHBackgroundClouds.png</key>
+		<key>airplane red final.psd</key>
 		<dict>
 			<key>scaleFrom</key>
-			<integer>2</integer>
+			<integer>1</integer>
 		</dict>
 		<key>ccbResources</key>
 		<dict>
