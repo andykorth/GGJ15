@@ -12,11 +12,13 @@
     
     self.physicsBody.allowsRotation = false;
     
+    cpTransform transform = plane.physicsBody.body.transform;
+    
     cpVect baseVelocity = plane.physicsBody.velocity;
-    cpVect muzzleVelocity = cpTransformVect(plane.physicsBody.body.transform, cpv(600.0, 0.0));
+    cpVect muzzleVelocity = cpTransformVect(transform, cpv(600.0, 0.0));
     self.physicsBody.velocity = cpvadd(baseVelocity, muzzleVelocity);
     
-    self.position = plane.position;
+    self.position = cpTransformPoint(transform, cpv(50.0, 6.0));
     self.rotation = plane.rotation;
     self.scale = 1.0f;
 }

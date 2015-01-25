@@ -105,6 +105,11 @@
             Bullet *bullet = (Bullet*) [CCBReader load:self.playerNumber == 0 ? @"RedBullet" : @"BlueBullet"];
             [bullet setup:self];
             [self.parent addChild:bullet];
+            
+            //recoil
+            CCPhysicsBody *body = self.physicsBody;
+            [body applyImpulse:cpTransformVect(body.body.transform, cpv(-400, 0.0))];
+            
             [timer repeatOnceWithInterval:0.1];
         } delay:0];
     }
@@ -317,12 +322,12 @@
     // TODO: extra crappy. Should animate.
     float foo = MIN(abs(self.rotation - 90.0), abs(self.rotation - 270.0))/30.0;
     if(foo < 1.0){
-        self.spriteFrame = nil;
+        self.opacity = 0.0;
         _topSprite.visible = true;
         _topSprite.scaleY = cpflerp(1.0, 0.4, foo);
 //        NSLog(@"%@, %@", NSStringFromPoint(self.anchorPoint), NSStringFromPoint(self.anchorPointInPoints));
     }else{
-        self.spriteFrame = _sideFrame;
+        self.opacity = 1.0;
         _topSprite.visible = false;
     }
     
