@@ -31,6 +31,8 @@
     CCSpriteFrame *_sideFrame;
     
     CCSprite *_topSprite;
+    
+    CCSprite *_flame;
 }
 
 
@@ -299,7 +301,9 @@ static NSString const * PLAYER2_GROUP = @"Player2Group";
     if(_dead || _keyDowns[_thrustKey]){
         // Apply simple forward acceleration.
         velocity.x = cpflerpconst(velocity.x, maxForwardSpeed, forwardAcceleration*delta);
-        
+        _flame.scale = 2.5f + 0.5f * sinf(self.scene.scheduler.currentTime * 40.0f);
+    }else{
+        _flame.scale = 0.8f + 0.3f * sinf(self.scene.scheduler.currentTime * 40.0f);
     }
     if(!_dead && _keyDowns[_reverseKey] && velocity.x > 0.0){
         // air brake!
