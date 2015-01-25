@@ -1,18 +1,24 @@
 #import "Bullet.h"
+#import "PlayerPlane.h"
+#import "CCPhysics+ObjectiveChipmunk.h"
 
 @implementation Bullet
 
--(id)initWithGroup:(id)group;
+
+-(void)setup:(PlayerPlane *)plane
 {
-    if((self = [super init])){
-        CCPhysicsBody *body = [CCPhysicsBody bodyWithCircleOfRadius:5.0 andCenter:CGPointZero];
-        body.collisionGroup = group;
-        body.collisionType = @"bullet";
-        
-        self.physicsBody = body;
-    }
+    self.physicsBody.collisionGroup = plane;
+    self.physicsBody.collisionType = @"bullet";
     
-    return self;
+    self.physicsBody.allowsRotation = false;
+    
+    cpVect baseVelocity = plane.physicsBody.velocity;
+    cpVect muzzleVelocity = cpTransformVect(plane.physicsBody.body.transform, cpv(600.0, 0.0));
+    self.physicsBody.velocity = cpvadd(baseVelocity, muzzleVelocity);
+    
+    self.position = plane.position;
+    self.rotation = plane.rotation;
+    self.scale = 2.0f;
 }
 
 -(void)onEnter

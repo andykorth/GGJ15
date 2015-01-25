@@ -17,7 +17,7 @@
     self.physicsBody.allowsRotation = false;
 
     self.position = plane.position;
-    self.rotation = plane.rotation;
+    self.rotation = fmod(plane.rotation + 360.0f, 360.0f);
     self.scale = 2.0f;
     
     // boost it out the back of the plane:
