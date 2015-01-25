@@ -25,6 +25,8 @@
     float _thrust;
     float _turn;
     
+    CCSpriteFrame *_topFrame;
+    CCSpriteFrame *_sideFrame;
 }
 
 
@@ -32,6 +34,7 @@
 {
     _keyDowns = [NSMutableDictionary dictionary];
     
+
     _shootTimer = 1.0f;
     _shootChargeRate = 0.3f;
     _shootCostPerGun = 0.1f;
@@ -56,6 +59,11 @@
 -(void)setPlayerNumber:(int)playerNumber
 {
     _playerNumber = playerNumber;
+    
+    _sideFrame = self.spriteFrame;
+    NSString* top = _playerNumber == 1 ? @"Art/Plane2BLUE-TOP.psd" : @"Art/RedPlaneTop.psd";
+    _topFrame = ((CCSprite*)[CCSprite spriteWithImageNamed:top]).spriteFrame;
+    
     
     if(_playerNumber == 0){
         _thrustKey = @13;
@@ -300,6 +308,19 @@
         controlRotation,
         fabs(_turn)
     );
+    
+    // necessary?
+    self.rotation = fmod((float) self.rotation + 360.0f, 360.0f);
+    
+    // TODO: extra crappy. Should animate.
+    if( abs(self.rotation - 90.0) < 20.0 || abs(self.rotation - 270.0) < 20.0  ){
+        self.spriteFrame = _topFrame;
+    }else{
+        self.spriteFrame = _sideFrame;
+    }
+    
+    self.flipY = (self.rotation > 90.0 && self.rotation < 270.0);
+    
 }
 
 @end
