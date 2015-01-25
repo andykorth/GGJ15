@@ -37,17 +37,17 @@
 //    _gradient.visible = false;
     _gradient.zOrder = -10;
     
-    _player1 = (PlayerPlane *)[CCBReader load:@"Plane"];
+    _player1 = (PlayerPlane *)[CCBReader load:@"RedPlane"];
     _player1.position = ccp(w - 150, 500);
     _player1.playerNumber = 0;
-    _player1.scale = 2.0f;
+    _player1.scale = 0.5f;
     _player1.mainScene = self;
     [_physicsNode addChild:_player1];
 
-    _player2 = (PlayerPlane *)[CCBReader load:@"Plane"];
+    _player2 = (PlayerPlane *)[CCBReader load:@"BluePlane"];
     _player2.position = ccp(150, 500);
     _player2.playerNumber = 1;
-    _player2.scale = 2.0f;
+    _player2.scale = 0.5f;
     _player2.mainScene = self;
     [_physicsNode addChild:_player2];
 
