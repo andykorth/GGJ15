@@ -2,8 +2,14 @@
 #import "cocos2d.h"
 #import "PlayerPlane.h"
 
-#define Z_HUD 10
-#define Z_EFFECTS 100
+
+enum Z_ORDER {
+    Z_BG,
+    Z_BG_EFFECTS,
+    Z_PLAYER,
+    Z_EFFECTS,
+    Z_HUD,
+};
 
 
 @class StatusNode;

@@ -19,14 +19,6 @@
     
 }
 
-enum Z_ORDER {
-    Z_BG,
-    Z_BG_EFFECTS,
-    Z_PLAYER,
-    Z_EFFECTS,
-    Z_HUD,
-};
-
 - (void) didLoadFromCCB
 {
     self.director = [CCDirector currentDirector];
@@ -178,6 +170,13 @@ enum Z_ORDER {
     if(player.health < 0.0f && !player.dead)
     {
         [player die];
+        
+        if(player == _player1){
+            [_player1Status removeFromParent];
+        }else{
+            [_player2Status removeFromParent];
+        }
+        
         CCNode* smoke = [CCBReader load:@"Particles/PersistingSmoke"];
 //        CCParticleSystemBase *particles = (CCParticleSystemBase*) smoke.children[0];
 //        particles.particlePositionType = CCParticleSystemPositionTypeFree;
