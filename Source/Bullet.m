@@ -7,7 +7,7 @@
 
 -(void)setup:(PlayerPlane *)plane
 {
-    self.physicsBody.collisionGroup = plane;
+    self.physicsBody.collisionGroup = plane.physicsBody.collisionGroup;
     self.physicsBody.collisionType = @"bullet";
     
     self.physicsBody.allowsRotation = false;

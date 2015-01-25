@@ -47,7 +47,6 @@
     _health = 1.0f;
     
     self.physicsBody.friction = 0.0;
-    self.physicsBody.collisionGroup = self;
     
     self.physicsBody.body.moment *= 3.0f;
     
@@ -61,6 +60,9 @@
     [self cancelBullets];
     [self cancelBombs];
 }
+
+static NSString const * PLAYER1_GROUP = @"Player1Group";
+static NSString const * PLAYER2_GROUP = @"Player2Group";
 
 -(void)setPlayerNumber:(int)playerNumber
 {
@@ -86,6 +88,8 @@
         _fire1 = @83;
         _fire2 = @84;
     }
+    
+    self.physicsBody.collisionGroup = (playerNumber == 0 ? PLAYER1_GROUP : PLAYER2_GROUP);
 }
 
 - (void)keyDown:(NSEvent *)theEvent
