@@ -124,6 +124,9 @@
 		D3C6B90D1A74305600E26A03 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = D3C6B8F61A74305600E26A03 /* README.md */; };
 		D3C6B90E1A74305600E26A03 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = D3C6B8F61A74305600E26A03 /* README.md */; };
 		D3C6B90F1A74305600E26A03 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = D3C6B8F61A74305600E26A03 /* README.md */; };
+		D3C6B91D1A74856B00E26A03 /* music.wav in Resources */ = {isa = PBXBuildFile; fileRef = D3C6B91C1A74856B00E26A03 /* music.wav */; };
+		D3C6B91E1A74856B00E26A03 /* music.wav in Resources */ = {isa = PBXBuildFile; fileRef = D3C6B91C1A74856B00E26A03 /* music.wav */; };
+		D3C6B91F1A74856B00E26A03 /* music.wav in Resources */ = {isa = PBXBuildFile; fileRef = D3C6B91C1A74856B00E26A03 /* music.wav */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -259,6 +262,7 @@
 		D3C6B8F41A74305600E26A03 /* CCEffectLineSegment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCEffectLineSegment.m; sourceTree = "<group>"; };
 		D3C6B8F51A74305600E26A03 /* effects.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = effects.png; sourceTree = "<group>"; };
 		D3C6B8F61A74305600E26A03 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		D3C6B91C1A74856B00E26A03 /* music.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = music.wav; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -578,6 +582,7 @@
 		B77F1B4617B978D7009739AE /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				D3C6B91C1A74856B00E26A03 /* music.wav */,
 				7A40366119DDF8C2007B6E8F /* Platforms */,
 				5B12100D197483EE004C1E1D /* res */,
 				B73789911807667A0076A88C /* Icons */,
@@ -785,6 +790,7 @@
 				7A4036F919DE401F007B6E8F /* iPad.png in Resources */,
 				7A4036FA19DE401F007B6E8F /* iPad@2x.png in Resources */,
 				7A4036FB19DE401F007B6E8F /* iPhone-old.png in Resources */,
+				D3C6B91F1A74856B00E26A03 /* music.wav in Resources */,
 				7A4036FC19DE401F007B6E8F /* iPhone-old@2x.png in Resources */,
 				7A4036FD19DE401F007B6E8F /* iPhone.png in Resources */,
 				7A59498B19E38E4A00F65F90 /* MainMenu.xib in Resources */,
@@ -808,6 +814,7 @@
 				927F61AD196C771E000F43EF /* Settings.png in Resources */,
 				927F61AE196C771E000F43EF /* Default@2x.png in Resources */,
 				927F61AF196C771E000F43EF /* iPad@2x.png in Resources */,
+				D3C6B91E1A74856B00E26A03 /* music.wav in Resources */,
 				927F61B0196C771E000F43EF /* iPad.png in Resources */,
 				927F61B1196C771E000F43EF /* iPad-old@2x.png in Resources */,
 				927F61B2196C771E000F43EF /* iPhone-old@2x.png in Resources */,
@@ -833,6 +840,7 @@
 				B71F5919188484E7003F4D28 /* Settings.png in Resources */,
 				B7378978180762440076A88C /* Default@2x.png in Resources */,
 				B71F5914188484E7003F4D28 /* iPad@2x.png in Resources */,
+				D3C6B91D1A74856B00E26A03 /* music.wav in Resources */,
 				B71F5913188484E7003F4D28 /* iPad.png in Resources */,
 				B71F5912188484E7003F4D28 /* iPad-old@2x.png in Resources */,
 				B71F5916188484E7003F4D28 /* iPhone-old@2x.png in Resources */,

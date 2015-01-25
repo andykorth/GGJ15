@@ -20,6 +20,8 @@
     // But optionally, size the window to match the user's screen:
 //    defaultWindowSize = CGRectInset([mainScreen visibleFrame], 100, 100).size;
     
+    [[OALSimpleAudio sharedInstance] playBg:@"music.wav" loop:YES];
+    
     [self.window setFrame:CGRectMake(0.0f, 0.0f, defaultWindowSize.width, defaultWindowSize.height) display:true animate:false];
 
     CGRect contentRect = [NSWindow contentRectForFrameRect: self.window.frame styleMask: NSTitledWindowMask];
