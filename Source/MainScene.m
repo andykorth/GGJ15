@@ -159,6 +159,12 @@
     } delay:3.0];
 }
 
+// Quick and dirty way to disable bullet-bullet collisions without fiddling with filtering.
+-(BOOL)ccPhysicsCollisionBegin:(CCPhysicsCollisionPair *)pair bullet:(CCNode *)nodeA bullet:(CCNode *)nodeB
+{
+    return false;
+}
+
 -(BOOL)ccPhysicsCollisionBegin:(CCPhysicsCollisionPair *)pair wall:(CCNode *)wall bullet:(Bullet *)bullet
 {
     // TODO this is using duck typing...
