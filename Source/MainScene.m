@@ -31,7 +31,7 @@
     [self setUserInteractionEnabled:true];
     _title.string = @"";
 
-    _physicsNode.debugDraw = YES;
+//    _physicsNode.debugDraw = YES;
     _physicsNode.collisionDelegate = self;
     
 //    _gradient.visible = false;
@@ -122,7 +122,9 @@ static const float MinBarWidth = 5.0;
 
 - (void)keyUp:(NSEvent *)theEvent
 {
-    
+    if(theEvent.keyCode == 48){
+        _physicsNode.debugDraw = !_physicsNode.debugDraw;
+    }
 }
 
 -(BOOL)ccPhysicsCollisionBegin:(CCPhysicsCollisionPair *)pair wall:(CCNode *)wall bullet:(Bullet *)bullet
