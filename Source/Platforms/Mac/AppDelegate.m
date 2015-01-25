@@ -51,7 +51,7 @@
     [[CCPackageManager sharedManager] loadPackages];
     
     [CCDirector bindDirector:director];
-    [director presentScene:(CCScene*)[CCBReader load:@"MainScene"]];
+    [director presentScene:(CCScene*)[CCBReader load:@"TitleScene"]]; // or MainScene
     [CCDirector bindDirector:nil];
 }
 
