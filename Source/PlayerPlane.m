@@ -88,6 +88,10 @@
             }
             _shootTimer -= _shootCostPerGun;
             
+            
+            [[OALSimpleAudio sharedInstance] playEffect:@"GunPow.wav" volume:0.25 pitch:CCRANDOM_0_1() * 0.2f + 0.9f pan:0.0 loop:NO];
+            
+            
             Bullet *bullet = (Bullet*) [CCBReader load:self.playerNumber == 0 ? @"RedBullet" : @"BlueBullet"];
             [bullet setup:self];
             [self.parent addChild:bullet];
@@ -101,6 +105,10 @@
             if(_shootTimer <= _shootCostPerBomb || _dead){
                 return;
             }
+            NSArray *ar = @[@"BombDrop1.wav",@"BombDrop2.wav",@"BombDrop3.wav"];
+            
+            [[OALSimpleAudio sharedInstance] playEffect:ar[(int)(CCRANDOM_0_1() * 3)] volume:0.25 pitch:1.0f pan:0.0 loop:NO];
+            
             _shootTimer -= _shootCostPerBomb;
             
             Bomb *bomb = (Bomb*) [CCBReader load:self.playerNumber == 0 ? @"RedBomb" : @"BlueBomb"];
@@ -169,12 +177,18 @@
         
         [self scheduleBlock:^(CCTimer *timer) {
             __block CCNode* playerBoom = [CCBReader load:@"Particles/ShipExplosion"];
+            [[OALSimpleAudio sharedInstance] playEffect:@"explode.wav" volume:0.25 pitch:1.0f pan:0.0 loop:NO];
+
             playerBoom.position = self.position;
             [_mainScene.physicsNode addChild:playerBoom z:Z_EFFECTS];
-             [smoke removeFromParent];
+            [smoke removeFromParent];
             
             // need to retain these for the block since self gets removed from parent.
             __block MainScene* blockScene = _mainScene;
+            
+            [_mainScene scheduleBlock:^(CCTimer *timer) {
+                [[OALSimpleAudio sharedInstance] playEffect:@"levelup.wav" volume:0.35 pitch:1.0f pan:0.0 loop:NO];
+            } delay:1.0f];
             
             [_mainScene scheduleBlock:^(CCTimer *timer) {
                 [playerBoom removeFromParent];

@@ -147,6 +147,8 @@
 
 -(void)addExplosionAt:(CCPhysicsBody *)body
 {
+    [[OALSimpleAudio sharedInstance] playEffect:@"explode.wav" volume:0.25 pitch:1.0f pan:0.0 loop:NO];
+
     CCNode* explosion = [CCBReader load:@"Particles/BombExplosion"];
     explosion.position = body.absolutePosition;
     [_physicsNode addChild:explosion z:Z_EFFECTS];
