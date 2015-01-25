@@ -12,6 +12,9 @@
 
 @property(nonatomic) float health;
 
+@property(nonatomic) bool dead;
+
+-(void) die;
 
 
 @end

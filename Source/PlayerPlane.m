@@ -23,6 +23,7 @@
     
     float _thrust;
     float _turn;
+    
 }
 
 
@@ -85,7 +86,7 @@
     if([keyCode isEqualTo:_fire2]){
         _bombTimer = [self scheduleBlock:^(CCTimer *timer) {
             
-            if(_shootTimer <= _shootCostPerBomb){
+            if(_shootTimer <= _shootCostPerBomb || _dead){
                 return;
             }
             _shootTimer -= _shootCostPerBomb;
@@ -101,6 +102,8 @@
 
 -(void) shoot
 {
+    if(_dead) return;
+    
     if(_shootTimer <= _shootCostPerGun){
         return;
     }
@@ -127,6 +130,11 @@
     _bombTimer = nil;
 }
 
+-(void) die
+{
+    _dead = true;
+}
+
 -(void)updateInput:(CCTime)delta
 {
     const float thrustInterval = 0.25;
@@ -138,6 +146,11 @@
     cpFloat turn = 0.0;
     if(_keyDowns[_leftKey]) turn += 1.0;
     if(_keyDowns[_rightKey]) turn -= 1.0;
+    
+    if(_dead){
+        turn = -1.0f;//= fmod(self.scene.scheduler.currentTime, 1.0f) > 0.5 ? 1.0 : -1.0;
+        _thrust = 1.0;
+    }
     
     _turn = cpflerpconst(_turn, turn, delta/turnInterval);
 }
@@ -183,7 +196,7 @@
     velocity.x *= pow(linearDrag.x, delta);
     velocity.y *= pow(linearDrag.y, delta);
     
-    if(_keyDowns[_thrustKey]){
+    if(_dead || _keyDowns[_thrustKey]){
         // Apply simple forward acceleration.
         velocity.x = cpflerpconst(velocity.x, maxForwardSpeed, forwardAcceleration*delta);
         

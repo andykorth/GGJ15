@@ -80,8 +80,6 @@
 		</dict>
 		<key>Art</key>
 		<dict>
-			<key>isDirty</key>
-			<true/>
 			<key>isSmartSpriteSheet</key>
 			<true/>
 			<key>trimSprites</key>
@@ -102,6 +100,8 @@
 			<key>scaleFrom</key>
 			<integer>4</integer>
 		</dict>
+		<key>Art/bgBar.png</key>
+		<dict/>
 		<key>Art/blue_button08.png</key>
 		<dict>
 			<key>scaleFrom</key>

@@ -5,6 +5,7 @@
 #import "Bomb.h"
 
 #import "StatusNode.h"
+#import "CCParticleSystemBase.h"
 
 @implementation MainScene
 {
@@ -12,10 +13,18 @@
     CCLabelTTF *_player1Label;
     CCLabelTTF *_player2Label;
 
+    int _player1Score;
+    int _player2Score;
+    
 }
 
-#define Z_HUD 10
-#define Z_EFFECTS 100
+enum Z_ORDER {
+    Z_BG,
+    Z_BG_EFFECTS,
+    Z_PLAYER,
+    Z_EFFECTS,
+    Z_HUD,
+};
 
 - (void) didLoadFromCCB
 {
@@ -27,7 +36,6 @@
     float w = viewBounds.size.width;
     float h = viewBounds.size.height;
     
-
     [self setUserInteractionEnabled:true];
     _title.string = @"";
 
@@ -35,21 +43,9 @@
     _physicsNode.collisionDelegate = self;
     
 //    _gradient.visible = false;
-    _gradient.zOrder = -10;
+    _gradient.zOrder = Z_BG;
     
-    _player1 = (PlayerPlane *)[CCBReader load:@"RedPlane"];
-    _player1.position = ccp(w - 150, 500);
-    _player1.playerNumber = 0;
-    _player1.scale = 0.5f;
-    _player1.mainScene = self;
-    [_physicsNode addChild:_player1];
-
-    _player2 = (PlayerPlane *)[CCBReader load:@"BluePlane"];
-    _player2.position = ccp(150, 500);
-    _player2.playerNumber = 1;
-    _player2.scale = 0.5f;
-    _player2.mainScene = self;
-    [_physicsNode addChild:_player2];
+    [self spawnPlayers];
 
     _player1Status = (StatusNode *)[CCBReader load:@"StatusNode"];
     [_physicsNode addChild:_player1Status];
@@ -86,8 +82,33 @@
     
 }
 
+-(void) spawnPlayers
+{
+    float w = self.director.view.bounds.size.width;
+    if(_player1) [_player1 removeFromParentAndCleanup:true];
+    
+    _player1 = (PlayerPlane *)[CCBReader load:@"RedPlane"];
+    _player1.position = ccp(w - 150, 500);
+    _player1.playerNumber = 0;
+    _player1.scale = 0.5f;
+    _player1.mainScene = self;
+    [_physicsNode addChild:_player1 z:Z_PLAYER];
+    
+    if(_player2) [_player2 removeFromParentAndCleanup:true];
 
-static const float MinBarWidth = 5.0;
+    _player2 = (PlayerPlane *)[CCBReader load:@"BluePlane"];
+    _player2.position = ccp(150, 500);
+    _player2.playerNumber = 1;
+    _player2.scale = 0.5f;
+    _player2.mainScene = self;
+    [_physicsNode addChild:_player2 z:Z_PLAYER];
+}
+
+-(void) updateScores
+{
+    _player1Label.string = [NSString stringWithFormat:@"Player 1: %d", _player1Score];
+    _player2Label.string = [NSString stringWithFormat:@"Player 2: %d", _player2Score];
+}
 
 -(void)setWeaponBar:(float) alpha forPlayer:(int) player
 {
@@ -148,6 +169,37 @@ static const float MinBarWidth = 5.0;
     } delay:3.0];
     
     player.health -= 0.2f;
+    
+    if(player.health < 0.0f && !player.dead)
+    {
+        [player die];
+        CCNode* smoke = [CCBReader load:@"Particles/PersistingSmoke"];
+//        CCParticleSystemBase *particles = (CCParticleSystemBase*) smoke.children[0];
+//        particles.particlePositionType = CCParticleSystemPositionTypeFree;
+//        smoke.position = bullet.position;
+        [player.parent addChild:smoke z:Z_BG_EFFECTS];
+        
+        CCAction * a = [CCActionFollow actionWithTarget:player];
+        [smoke runAction:a];
+        
+        [self scheduleBlock:^(CCTimer *timer) {
+            CCNode* playerBoom = [CCBReader load:@"Particles/ShipExplosion"];
+            playerBoom.position = player.position;
+            [_physicsNode addChild:playerBoom z:Z_EFFECTS];
+            [player removeFromParent];
+            [smoke removeFromParent];
+            
+            [self scheduleBlock:^(CCTimer *timer) {
+                [playerBoom removeFromParent];
+                [self spawnPlayers];
+            } delay:2.0];
+        } delay:1.0];
+        
+        if(player == _player1) _player2Score += 1;
+        if(player == _player2) _player1Score += 1;
+        [self updateScores];
+        
+    }
     
     [bullet destroy];
 
