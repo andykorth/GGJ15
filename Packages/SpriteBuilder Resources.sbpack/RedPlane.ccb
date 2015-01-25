@@ -10,7 +10,7 @@
 		<false/>
 	</dict>
 	<key>UUID</key>
-	<integer>1</integer>
+	<integer>2</integer>
 	<key>centeredOrigin</key>
 	<false/>
 	<key>currentResolution</key>
@@ -38,7 +38,126 @@
 		<key>baseClass</key>
 		<string>CCSprite</string>
 		<key>children</key>
-		<array/>
+		<array>
+			<dict>
+				<key>UUID</key>
+				<integer>1</integer>
+				<key>baseClass</key>
+				<string>CCSprite</string>
+				<key>children</key>
+				<array/>
+				<key>customClass</key>
+				<string></string>
+				<key>displayName</key>
+				<string>RedPlaneTop</string>
+				<key>memberVarAssignmentName</key>
+				<string>_topSprite</string>
+				<key>memberVarAssignmentType</key>
+				<integer>1</integer>
+				<key>properties</key>
+				<array>
+					<dict>
+						<key>name</key>
+						<string>visible</string>
+						<key>type</key>
+						<string>Check</string>
+						<key>value</key>
+						<false/>
+					</dict>
+					<dict>
+						<key>name</key>
+						<string>name</string>
+						<key>type</key>
+						<string>StringSimple</string>
+						<key>value</key>
+						<string></string>
+					</dict>
+					<dict>
+						<key>name</key>
+						<string>position</string>
+						<key>type</key>
+						<string>Position</string>
+						<key>value</key>
+						<array>
+							<real>96.5</real>
+							<real>16</real>
+							<integer>0</integer>
+							<integer>0</integer>
+							<integer>0</integer>
+						</array>
+					</dict>
+					<dict>
+						<key>name</key>
+						<string>anchorPoint</string>
+						<key>type</key>
+						<string>Point</string>
+						<key>value</key>
+						<array>
+							<real>0.5</real>
+							<real>0.5</real>
+						</array>
+					</dict>
+					<dict>
+						<key>name</key>
+						<string>scale</string>
+						<key>type</key>
+						<string>ScaleLock</string>
+						<key>value</key>
+						<array>
+							<real>1</real>
+							<real>1</real>
+							<false/>
+							<integer>0</integer>
+						</array>
+					</dict>
+					<dict>
+						<key>name</key>
+						<string>spriteFrame</string>
+						<key>type</key>
+						<string>SpriteFrame</string>
+						<key>value</key>
+						<array>
+							<string></string>
+							<string>Art/RedPlaneTop.psd</string>
+						</array>
+					</dict>
+					<dict>
+						<key>name</key>
+						<string>normalMapSpriteFrame</string>
+						<key>type</key>
+						<string>SpriteFrame</string>
+						<key>value</key>
+						<array>
+							<string></string>
+							<string></string>
+						</array>
+					</dict>
+					<dict>
+						<key>name</key>
+						<string>color</string>
+						<key>type</key>
+						<string>Color3</string>
+						<key>value</key>
+						<array>
+							<real>1</real>
+							<real>1</real>
+							<real>1</real>
+							<real>1</real>
+						</array>
+					</dict>
+					<dict>
+						<key>name</key>
+						<string>effects</string>
+						<key>type</key>
+						<string>EffectControl</string>
+						<key>value</key>
+						<array/>
+					</dict>
+				</array>
+				<key>selected</key>
+				<true/>
+			</dict>
+		</array>
 		<key>customClass</key>
 		<string>PlayerPlane</string>
 		<key>displayName</key>
@@ -60,7 +179,7 @@
 			<key>collisionMask</key>
 			<array/>
 			<key>collisionType</key>
-			<string>player</string>
+			<string></string>
 			<key>cornerRadius</key>
 			<real>0.0</real>
 			<key>density</key>
@@ -68,70 +187,62 @@
 			<key>dynamic</key>
 			<true/>
 			<key>elasticity</key>
-			<real>0.80000001192092896</real>
+			<real>0.30000001192092896</real>
 			<key>friction</key>
 			<real>0.30000001192092896</real>
 			<key>points</key>
 			<array>
 				<array>
-					<real>190.68768310546875</real>
-					<real>5.3675007820129395</real>
+					<real>11.621427536010742</real>
+					<real>0.29380887746810913</real>
 				</array>
 				<array>
-					<real>35.636737823486328</real>
-					<real>2.5936036109924316</real>
+					<real>0.21030287444591522</real>
+					<real>15.573004722595215</real>
 				</array>
 				<array>
-					<real>2.6043000221252441</real>
-					<real>17.820995330810547</real>
+					<real>13.558603286743164</real>
+					<real>31.029592514038086</real>
 				</array>
 				<array>
-					<real>2.3358583450317383</real>
-					<real>27.784732818603516</real>
+					<real>184.39266967773438</real>
+					<real>32.079811096191406</real>
 				</array>
 				<array>
-					<real>105.84127807617188</real>
-					<real>30.748580932617188</real>
+					<real>194.70333862304688</real>
+					<real>15.83516788482666</real>
 				</array>
 				<array>
-					<real>146.72132873535156</real>
-					<real>26.594799041748047</real>
-				</array>
-				<array>
-					<real>192.44589233398438</real>
-					<real>10.34073543548584</real>
+					<real>179.34565734863281</real>
+					<real>1.4664750099182129</real>
 				</array>
 			</array>
 			<key>polygons</key>
 			<array>
 				<array>
 					<array>
-						<real>192.44589233398438</real>
-						<real>10.34073543548584</real>
+						<real>179.34565734863281</real>
+						<real>1.4664750099182129</real>
 					</array>
 					<array>
-						<real>146.72132873535156</real>
-						<real>26.594799041748047</real>
+						<real>194.70333862304688</real>
+						<real>15.83516788482666</real>
 					</array>
 					<array>
-						<real>105.84127807617188</real>
-						<real>30.748580932617188</real>
+						<real>184.39266967773438</real>
+						<real>32.079811096191406</real>
 					</array>
 					<array>
-						<real>2.3358583450317383</real>
-						<real>27.784732818603516</real>
+						<real>13.558603286743164</real>
+						<real>31.029592514038086</real>
 					</array>
 					<array>
-						<real>2.6043000221252441</real>
-						<real>17.820995330810547</real>
+						<real>0.21030287444591522</real>
+						<real>15.573004722595215</real>
 					</array>
 					<array>
-						<real>35.636737823486328</real>
-						<real>2.5936036109924316</real>
-					</array>
-					<array>
-						<real>190.68768310546875</real>
-						<real>5.3675007820129395</real>
+						<real>11.621427536010742</real>
+						<real>0.29380887746810913</real>
 					</array>
 				</array>
 			</array>
@@ -228,8 +339,6 @@
 				<array/>
 			</dict>
 		</array>
-		<key>selected</key>
-		<true/>
 	</dict>
 	<key>notes</key>
 	<array/>
@@ -306,6 +415,6 @@
 	<key>stageBorder</key>
 	<integer>3</integer>
 	<key>stageColor</key>
-	<integer>1</integer>
+	<integer>2</integer>
 </dict>
 </plist>

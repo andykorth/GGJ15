@@ -29,6 +29,8 @@
     
     CCSpriteFrame *_topFrame;
     CCSpriteFrame *_sideFrame;
+    
+    CCSprite *_topSprite;
 }
 
 
@@ -322,10 +324,15 @@
     self.rotation = fmod((float) self.rotation + 360.0f, 360.0f);
     
     // TODO: extra crappy. Should animate.
-    if( abs(self.rotation - 90.0) < 20.0 || abs(self.rotation - 270.0) < 20.0  ){
-        self.spriteFrame = _topFrame;
+    float foo = MIN(abs(self.rotation - 90.0), abs(self.rotation - 270.0))/30.0;
+    if(foo < 1.0){
+        self.spriteFrame = nil;
+        _topSprite.visible = true;
+        _topSprite.scaleY = cpflerp(1.0, 0.4, foo);
+//        NSLog(@"%@, %@", NSStringFromPoint(self.anchorPoint), NSStringFromPoint(self.anchorPointInPoints));
     }else{
         self.spriteFrame = _sideFrame;
+        _topSprite.visible = false;
     }
     
     self.flipY = (self.rotation > 90.0 && self.rotation < 270.0);
