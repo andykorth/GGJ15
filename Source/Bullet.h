@@ -1,9 +1,10 @@
 #import "cocos2d.h"
 
-@interface Bullet : CCNode
+@class PlayerPlane;
 
--(id)initWithGroup:(id)group;
+@interface Bullet : CCSprite
 
+-(void)setup:(PlayerPlane *)group;
 -(void)destroy;
 
 @end

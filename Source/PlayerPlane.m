@@ -135,7 +135,7 @@
             }
             _shootTimer -= _shootCostPerBomb;
             
-            Bomb *bomb = (Bomb*)  [CCBReader load:self.playerNumber == 0 ? @"RedBomb" : @"BlueBomb"];
+            Bomb *bomb = (Bomb*) [CCBReader load:self.playerNumber == 0 ? @"RedBomb" : @"BlueBomb"];
             [bomb setup:self];
 
             [self.parent addChild:bomb];
@@ -150,12 +150,8 @@
         return;
     }
     _shootTimer -= _shootCostPerGun;
-    Bullet *bullet = [[Bullet alloc] initWithGroup:self];
-    bullet.position = self.position;
-    
-    cpVect baseVelocity = self.physicsBody.velocity;
-    cpVect muzzleVelocity = cpTransformVect(self.physicsBody.body.transform, cpv(600.0, 0.0));
-    bullet.physicsBody.velocity = cpvadd(baseVelocity, muzzleVelocity);
+    Bullet *bullet = (Bullet*) [CCBReader load:self.playerNumber == 0 ? @"RedBullet" : @"BlueBullet"];
+    [bullet setup:self];
     [self.parent addChild:bullet];
 }
 
