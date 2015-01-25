@@ -2,6 +2,10 @@
 #import "cocos2d.h"
 #import "PlayerPlane.h"
 
+#define Z_HUD 10
+#define Z_EFFECTS 100
+
+
 @class StatusNode;
 
 @interface MainScene : CCScene<CCPhysicsCollisionDelegate>
@@ -18,5 +22,7 @@
 
 -(void)setWeaponBar:(float) alpha forPlayer:(int) player;
 -(void)setHealthBar:(float) alpha forPlayer:(int) player;
+
+-(void)addExplosionAt:(CCPhysicsBody *)body;
 
 @end

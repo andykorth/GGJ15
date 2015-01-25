@@ -107,6 +107,21 @@
 			<key>scaleFrom</key>
 			<integer>4</integer>
 		</dict>
+		<key>Art/bomb.png</key>
+		<dict>
+			<key>scaleFrom</key>
+			<integer>2</integer>
+		</dict>
+		<key>Art/bombBlue.psd</key>
+		<dict>
+			<key>scaleFrom</key>
+			<integer>2</integer>
+		</dict>
+		<key>Art/bombRed.psd</key>
+		<dict>
+			<key>scaleFrom</key>
+			<integer>2</integer>
+		</dict>
 		<key>Art/green_button08.png</key>
 		<dict>
 			<key>scaleFrom</key>

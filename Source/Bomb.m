@@ -1,6 +1,7 @@
 #import "Bomb.h"
 #import "CCPhysics+ObjectiveChipmunk.h"
 #import "PlayerPlane.h"
+#import "MainScene.h"
 
 @implementation Bomb
 
@@ -38,10 +39,21 @@
     
     // rotate down
     self.rotation = cpflerp(self.rotation, 90.0f, delta * 2.5f); // should go coujnterclickwise too.
+    
+    CCPhysicsNode *physics = body.physicsNode;
+    
+    [physics pointQueryAt:body.absolutePosition within:40.0 block:^(CCPhysicsShape *shape, CGPoint nearest, CGFloat distance) {
+        CCNode *node = shape.node;
+        if(shape.collisionGroup != body.collisionGroup && [node isKindOfClass:[PlayerPlane class]]){
+            ((PlayerPlane *)node).health -= 0.2f;
+            [self destroy];
+        }
+    }];
 }
 
 -(void)destroy
 {
+    [(MainScene *)self.scene addExplosionAt:self.physicsBody];
 	[self removeFromParent];
 }
 
