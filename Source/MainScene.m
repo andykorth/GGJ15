@@ -1,5 +1,6 @@
 #import "MainScene.h"
 #import "CCScene+Private.h"
+#import "CCPhysics+ObjectiveChipmunk.h"
 
 #import "Bullet.h"
 #import "Bomb.h"
@@ -148,6 +149,17 @@ enum Z_ORDER {
     }
 }
 
+-(void)addExplosionAt:(CCPhysicsBody *)body
+{
+    CCNode* explosion = [CCBReader load:@"Particles/BombExplosion"];
+    explosion.position = body.absolutePosition;
+    [_physicsNode addChild:explosion z:Z_EFFECTS];
+    
+    [self scheduleBlock:^(CCTimer *timer) {
+        [explosion removeFromParent];
+    } delay:3.0];
+}
+
 -(BOOL)ccPhysicsCollisionBegin:(CCPhysicsCollisionPair *)pair wall:(CCNode *)wall bullet:(Bullet *)bullet
 {
     // TODO this is using duck typing...
@@ -160,14 +172,7 @@ enum Z_ORDER {
 {
     NSLog(@"hit!");
     
-    CCNode* explosion = [CCBReader load:@"Particles/BombExplosion"];
-    explosion.position = bullet.position;
-    [_physicsNode addChild:explosion z:Z_EFFECTS];
-    
-    [self scheduleBlock:^(CCTimer *timer) {
-        [explosion removeFromParent];
-    } delay:3.0];
-    
+    [self addExplosionAt:bullet.physicsBody];
     player.health -= 0.2f;
     
     if(player.health < 0.0f && !player.dead)

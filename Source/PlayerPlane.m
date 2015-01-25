@@ -19,6 +19,7 @@
     float _shootCostPerBomb;
     float _shootChargeRate;
     
+    CCTimer *_bulletTimer;
     CCTimer *_bombTimer;
     
     float _thrust;
@@ -48,6 +49,7 @@
 {
     [super onExit];
     
+    [self cancelBullets];
     [self cancelBombs];
 }
 
@@ -80,7 +82,17 @@
     _keyDowns[keyCode] = @(true);
     
     if([keyCode isEqualTo:_fire1]){
-        [self shoot];
+        _bulletTimer = [self scheduleBlock:^(CCTimer *timer) {
+            if(_shootTimer <= _shootCostPerGun){
+                return;
+            }
+            _shootTimer -= _shootCostPerGun;
+            
+            Bullet *bullet = (Bullet*) [CCBReader load:self.playerNumber == 0 ? @"RedBullet" : @"BlueBullet"];
+            [bullet setup:self];
+            [self.parent addChild:bullet];
+            [timer repeatOnceWithInterval:0.1];
+        } delay:0];
     }
     
     if([keyCode isEqualTo:_fire2]){
@@ -119,9 +131,17 @@
     
     [_keyDowns removeObjectForKey:keyCode];
     
-    if([keyCode isEqualTo:_fire2]){
+    if([keyCode isEqualTo:_fire1]){
+        [self cancelBullets];
+    } else if([keyCode isEqualTo:_fire2]){
         [self cancelBombs];
     }
+}
+
+-(void)cancelBullets
+{
+    [_bulletTimer invalidate];
+    _bulletTimer = nil;
 }
 
 -(void)cancelBombs
@@ -171,7 +191,7 @@
     [self updateShootBar];
     [self updateHealthBar];
     
-    const cpFloat forwardAcceleration = 800.0;
+    const cpFloat forwardAcceleration = 1000.0;
     const cpFloat maxForwardSpeed = 800.0;
     
     // Maximum rotation speed when traveling at the maximum speed.
@@ -219,7 +239,7 @@
     cpFloat dragRotation = (1.0 - _thrust)*velocity.y/codOffset;
     
     body.angularVelocity = cpflerp(
-        cpflerp(dragRotation, angularVelocity, pow(0.2, delta)),
+        cpflerp(dragRotation, angularVelocity, pow(0.8, delta)),
         controlRotation,
         fabs(_turn)
     );
