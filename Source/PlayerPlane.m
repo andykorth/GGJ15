@@ -8,7 +8,9 @@
 #import "CCEffectLine.h"
 
 @implementation PlayerPlane{
+ 
     NSNumber *_thrustKey;
+    NSNumber *_reverseKey;
     NSNumber *_leftKey;
     NSNumber *_rightKey;
     NSNumber *_fire1;
@@ -45,6 +47,8 @@
     self.physicsBody.friction = 0.0;
     self.physicsBody.collisionGroup = self;
     
+    self.physicsBody.body.moment *= 3.0f;
+    
     self.userInteractionEnabled= true;
 }
 
@@ -66,12 +70,14 @@
     
     
     if(_playerNumber == 0){
+        _reverseKey = @1;
         _thrustKey = @13;
         _leftKey = @0;
         _rightKey = @2;
         _fire1 = @38;
         _fire2 = @40;
     } else {
+        _reverseKey = @125;
         _thrustKey = @126;
         _leftKey = @123;
         _rightKey = @124;
@@ -263,6 +269,7 @@
     const cpFloat codOffset = 5.0;
     
     const cpVect linearDrag = cpv(0.95, 0.1);
+    const float airBrakeDrag = 0.15f;
     
     [self updateInput:delta];
     
@@ -283,9 +290,10 @@
         velocity.x = cpflerpconst(velocity.x, maxForwardSpeed, forwardAcceleration*delta);
         
     }
-//    if(_keyDowns[_playerNumber == 0 ? @(1) : @(125)]){ //s
-//        // air brake?
-//    }
+    if(!_dead && _keyDowns[_reverseKey] && velocity.x > 0.0){
+        // air brake!
+        velocity.x *= pow(airBrakeDrag, delta);
+    }
     
     self.physicsBody.velocity = cpTransformVect(transform, velocity);
     
@@ -301,10 +309,11 @@
     cpFloat dragRotation = (1.0 - _thrust)*velocity.y/codOffset;
     
     // andy disabled this:
-    dragRotation = angularVelocity;
+    dragRotation = angularVelocity * 0.95;
     
     body.angularVelocity = cpflerp(
-        cpflerp(dragRotation, angularVelocity, pow(0.8, delta)),
+        dragRotation,
+//        cpflerp(dragRotation, angularVelocity, pow(0.8, delta)),
         controlRotation,
         fabs(_turn)
     );
