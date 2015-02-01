@@ -8,6 +8,8 @@
 #import "StatusNode.h"
 #import "CCParticleSystemBase.h"
 
+#import "CCController.h"
+
 @implementation MainScene
 {
     // HUD elements
@@ -77,12 +79,19 @@
 
 -(void) spawnPlayers
 {
+    // Set up controllers
+    // This is kind of a dumb hack.
+    NSArray *controllers = [CCController controllers];
+    GCController *controller1 = (controllers.count >= 1 ? controllers[0] : nil);
+    GCController *controller2 = (controllers.count >= 2 ? controllers[1] : nil);
+    
     float w = self.director.view.bounds.size.width;
     if(_player1) [_player1 removeFromParentAndCleanup:true];
     
     _player1 = (PlayerPlane *)[CCBReader load:@"RedPlane"];
     _player1.position = ccp(150, 500);
     _player1.playerNumber = 0;
+    _player1.controller = controller1;
     _player1.scale = 0.3f;
     _player1.mainScene = self;
     [_physicsNode addChild:_player1 z:Z_PLAYER];
@@ -94,6 +103,7 @@
     _player2 = (PlayerPlane *)[CCBReader load:@"BluePlane"];
     _player2.position = ccp(w - 150, 500);
     _player2.playerNumber = 1;
+    _player2.controller = controller2;
     _player2.scale = 0.3f;
     _player2.mainScene = self;
     _player2.rotation = 180.0;
