@@ -317,7 +317,7 @@ static NSString const * PLAYER2_GROUP = @"Player2Group";
     // Update input values.
     cpFloat thrust = _controller.extendedGamepad.leftThumbstick.yAxis.value;
     if(_keyDowns[_thrustKey]) thrust += 1.0;
-    if(_keyDowns[_reverseKey]) thrust -= 1.0;
+    thrust = MIN(MAX(thrust, 0.0f), 1.0f);
     
     _thrust = cpflerpconst(_thrust, thrust, delta/thrustInterval);
     
@@ -326,7 +326,7 @@ static NSString const * PLAYER2_GROUP = @"Player2Group";
     if(_keyDowns[_rightKey]) turn -= 1.0;
     
     if(_dead){
-        turn = -1.0f;//= fmod(self.scene.scheduler.currentTime, 1.0f) > 0.5 ? 1.0 : -1.0;
+        turn = -1.0f;
         _thrust = 1.0;
     }
     
