@@ -14,7 +14,7 @@
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
     // Set a default window size
-    CGSize defaultWindowSize = CGSizeMake(1280.0f, 720.0f);
+    CGSize defaultWindowSize = CGSizeMake(1920.0f, 1080.0f);
     
 //    NSScreen *mainScreen = [NSScreen mainScreen];
     // But optionally, size the window to match the user's screen:

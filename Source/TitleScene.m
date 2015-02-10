@@ -6,6 +6,7 @@
 {
     CCLabelTTF *_anyKey;
     
+    CCNode *_contentNode;
 }
 
 - (void) didLoadFromCCB
@@ -13,6 +14,17 @@
     // TODO: essentially a cocos2d bug
     self.director = [CCDirector currentDirector];
     self.userInteractionEnabled = true;
+    
+    CGSize _designSize = CGSizeMake(1280.0f, 720.0f);
+    
+    CCViewportNode * viewport = [CCViewportNode scaleToFit:_designSize];
+    _contentNode = viewport.contentNode;
+    _contentNode.contentSize = _designSize;
+    
+    for (CCNode *n in [self.children copy]) {
+        [n setParent:_contentNode];
+    }
+    [self addChild:viewport];
 }
 
 - (void)keyDown:(NSEvent *)theEvent

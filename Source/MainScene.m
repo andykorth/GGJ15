@@ -19,17 +19,29 @@
     int _player1Score;
     int _player2Score;
     
+    CCNode *_contentNode;
+    CCNode *_camera;
+    
+    CGSize _designSize;
+    
 }
 
 - (void) didLoadFromCCB
 {
     self.director = [CCDirector currentDirector];
-    CGRect viewBounds = self.director.view.bounds;
-    self.contentSize = viewBounds.size;
+    self.contentSize = self.director.view.bounds.size;
     self.contentSizeType = CCSizeTypePoints;
+
+    _designSize = CGSizeMake(1280.0f, 720.0f);
+    float w = _designSize.width;
+    float h = _designSize.height;
+
+    CCViewportNode * viewport = [CCViewportNode scaleToFit:_designSize];
+    _contentNode = viewport.contentNode;
+    _contentNode.contentSize = _designSize;
+    _camera = viewport.camera;
     
-    float w = viewBounds.size.width;
-    float h = viewBounds.size.height;
+
     
     [self setUserInteractionEnabled:true];
     _title.string = @"";
@@ -73,8 +85,11 @@
     }
     
     CCNode *hud = [CCBReader load:@"HUD" owner:self];
-    [self addChild:hud z:Z_HUD];
-    
+    [_contentNode addChild:hud z:Z_HUD];
+    for (CCNode *n in [self.children copy]) {
+        [n setParent:_contentNode];
+    }
+    [self addChild:viewport];
 }
 
 -(void) spawnPlayers
@@ -85,7 +100,7 @@
     GCController *controller1 = (controllers.count >= 1 ? controllers[0] : nil);
     GCController *controller2 = (controllers.count >= 2 ? controllers[1] : nil);
     
-    float w = self.director.view.bounds.size.width;
+    float w = _designSize.width;
     if(_player1) [_player1 removeFromParentAndCleanup:true];
     
     _player1 = (PlayerPlane *)[CCBReader load:@"RedPlane"];
