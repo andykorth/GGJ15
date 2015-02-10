@@ -155,7 +155,7 @@ static NSString const * PLAYER2_GROUP = @"Player2Group";
     if([keyCode isEqualTo:_fire1]){
         [self shoot:YES];
     } else if([keyCode isEqualTo:_fire2]){
-        [self shoot:NO];
+        [self bomb:YES];
     }
 }
 
