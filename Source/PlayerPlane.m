@@ -1,3 +1,5 @@
+#import <GameController/GameController.h>
+
 #import "CCPhysics+ObjectiveChipmunk.h"
 #import "MainScene.h"
 #import "PlayerPlane.h"
@@ -35,6 +37,8 @@
     CCSprite *_flame;
 
     CCEffectLine *_trail;
+    
+    BOOL _shootPressed, _bombPressed;
 }
 
 
@@ -149,6 +153,44 @@ static NSString const * PLAYER2_GROUP = @"Player2Group";
     _keyDowns[keyCode] = @(true);
     
     if([keyCode isEqualTo:_fire1]){
+        [self shoot:YES];
+    } else if([keyCode isEqualTo:_fire2]){
+        [self shoot:NO];
+    }
+}
+
+- (void)keyUp:(NSEvent *)theEvent
+{
+    NSNumber *keyCode = @(theEvent.keyCode);
+    
+    [_keyDowns removeObjectForKey:keyCode];
+    
+    if([keyCode isEqualTo:_fire1]){
+        [self shoot:NO];
+    } else if([keyCode isEqualTo:_fire2]){
+        [self bomb:NO];
+    }
+}
+
+-(void)setController:(GCController *)controller
+{
+    _controller = controller;
+    
+    controller.extendedGamepad.rightTrigger.valueChangedHandler = ^(GCControllerButtonInput *button, float value, BOOL pressed){
+        [self shoot:pressed];
+    };
+    
+    controller.extendedGamepad.leftTrigger.valueChangedHandler = ^(GCControllerButtonInput *button, float value, BOOL pressed){
+        [self bomb:pressed];
+    };
+}
+
+-(void)shoot:(BOOL)state
+{
+    if(state == _shootPressed) return;
+    _shootPressed = state;
+    
+    if(state){
         _bulletTimer = [self scheduleBlock:^(CCTimer *timer) {
             if(_shootTimer <= _shootCostPerGun){
                 return;
@@ -169,9 +211,17 @@ static NSString const * PLAYER2_GROUP = @"Player2Group";
             
             [timer repeatOnceWithInterval:0.1];
         } delay:0];
+    } else {
+        [self cancelBullets];
     }
+}
+
+-(void)bomb:(BOOL)state
+{
+    if(state == _bombPressed) return;
+    _bombPressed = state;
     
-    if([keyCode isEqualTo:_fire2]){
+    if(state){
         _bombTimer = [self scheduleBlock:^(CCTimer *timer) {
             
             if(_shootTimer <= _shootCostPerBomb || _dead){
@@ -189,31 +239,7 @@ static NSString const * PLAYER2_GROUP = @"Player2Group";
             [self.parent addChild:bomb];
             [timer repeatOnceWithInterval:0.1];
         } delay:0];
-    }
-}
-
--(void) shoot
-{
-    if(_dead) return;
-    
-    if(_shootTimer <= _shootCostPerGun){
-        return;
-    }
-    _shootTimer -= _shootCostPerGun;
-    Bullet *bullet = (Bullet*) [CCBReader load:self.playerNumber == 0 ? @"RedBullet" : @"BlueBullet"];
-    [bullet setup:self];
-    [self.parent addChild:bullet];
-}
-
-- (void)keyUp:(NSEvent *)theEvent
-{
-    NSNumber *keyCode = @(theEvent.keyCode);
-    
-    [_keyDowns removeObjectForKey:keyCode];
-    
-    if([keyCode isEqualTo:_fire1]){
-        [self cancelBullets];
-    } else if([keyCode isEqualTo:_fire2]){
+    } else {
         [self cancelBombs];
     }
 }
@@ -289,9 +315,13 @@ static NSString const * PLAYER2_GROUP = @"Player2Group";
     const float turnInterval = 0.25;
     
     // Update input values.
-    _thrust = cpflerpconst(_thrust, _keyDowns[_thrustKey] ? 1.0 : 0.0, delta/thrustInterval);
+    cpFloat thrust = _controller.extendedGamepad.leftThumbstick.yAxis.value;
+    if(_keyDowns[_thrustKey]) thrust += 1.0;
+    if(_keyDowns[_reverseKey]) thrust -= 1.0;
     
-    cpFloat turn = 0.0;
+    _thrust = cpflerpconst(_thrust, thrust, delta/thrustInterval);
+    
+    cpFloat turn = -_controller.extendedGamepad.rightThumbstick.xAxis.value;
     if(_keyDowns[_leftKey]) turn += 1.0;
     if(_keyDowns[_rightKey]) turn -= 1.0;
     
@@ -345,14 +375,17 @@ static NSString const * PLAYER2_GROUP = @"Player2Group";
     velocity.x *= pow(linearDrag.x, delta);
     velocity.y *= pow(linearDrag.y, delta);
     
-    if(_dead || _keyDowns[_thrustKey]){
+    cpFloat thrust = _thrust;
+    cpFloat turn = _turn;
+    
+    if(_dead || fabs(thrust) > 0.1){
         // Apply simple forward acceleration.
-        velocity.x = cpflerpconst(velocity.x, maxForwardSpeed, forwardAcceleration*delta);
+        velocity.x = cpflerpconst(velocity.x, maxForwardSpeed, thrust*forwardAcceleration*delta);
         _flame.scale = 2.5f + 0.5f * sinf(self.scene.scheduler.currentTime * 40.0f);
     }else{
         _flame.scale = 0.8f + 0.3f * sinf(self.scene.scheduler.currentTime * 40.0f);
     }
-    if(!_dead && _keyDowns[_reverseKey] && velocity.x > 0.0){
+    if(!_dead && thrust < 0.0 && velocity.x > 0.0){
         // air brake!
         velocity.x *= pow(airBrakeDrag, delta);
     }
@@ -365,10 +398,10 @@ static NSString const * PLAYER2_GROUP = @"Player2Group";
     
     // Plane turns better the faster you are going.
     cpFloat controlCoefficient = fmax(fabs(velocity.x/maxForwardSpeed), 0.4);
-    cpFloat controlRotation = maxRotationSpeed*_turn*controlCoefficient;
+    cpFloat controlRotation = maxRotationSpeed*turn*controlCoefficient;
     
     // Rotation due to the movement of the center of drag.
-    cpFloat dragRotation = (1.0 - _thrust)*velocity.y/codOffset;
+    cpFloat dragRotation = (1.0 - fabs(thrust))*velocity.y/codOffset;
     
     // andy disabled this:
     dragRotation = angularVelocity * 0.95;
@@ -377,7 +410,7 @@ static NSString const * PLAYER2_GROUP = @"Player2Group";
         dragRotation,
 //        cpflerp(dragRotation, angularVelocity, pow(0.8, delta)),
         controlRotation,
-        fabs(_turn)
+        fabs(turn)
     );
     
     // necessary?
