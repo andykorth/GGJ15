@@ -290,7 +290,7 @@ static NSString const * PLAYER2_GROUP = @"Player2Group";
             
             [_mainScene scheduleBlock:^(CCTimer *timer) {
                 [playerBoom removeFromParent];
-                [blockScene spawnPlayers];
+                [blockScene roundEnd];
             } delay:2.0];
             
             [self removeFromParent];

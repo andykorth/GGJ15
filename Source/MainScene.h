@@ -33,5 +33,6 @@ enum Z_ORDER {
 
 -(void) playerDied:(PlayerPlane *)player;
 -(void) spawnPlayers;
+-(void) roundEnd;
 
 @end

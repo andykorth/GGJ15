@@ -209,11 +209,6 @@
     }
     if(player == _player1) _player2Score += 1;
     if(player == _player2) _player1Score += 1;
-    [self updateScores];
-    
-    if(_player1Score >= 5 || _player2Score >= 5){
-        [self winner];
-    }
 }
 
 -(void) winner {
@@ -222,6 +217,15 @@
     [self.director presentScene:scene];
 }
 
+-(void) roundEnd {
+    [self updateScores];
+    
+    if(_player1Score >= 5 || _player2Score >= 5){
+        [self winner];
+    }else{
+        [self spawnPlayers];
+    }
+}
 
 -(BOOL)ccPhysicsCollisionBegin:(CCPhysicsCollisionPair *)pair player:(PlayerPlane *)player bullet:(Bullet *)bullet
 {
