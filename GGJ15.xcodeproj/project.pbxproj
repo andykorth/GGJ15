@@ -184,7 +184,7 @@
 		5B121011197483EE004C1E1D /* ic_launcher.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_launcher.png; sourceTree = "<group>"; };
 		5B121013197483EE004C1E1D /* ic_launcher.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_launcher.png; sourceTree = "<group>"; };
 		5B121015197483EE004C1E1D /* ic_launcher.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_launcher.png; sourceTree = "<group>"; };
-		5B121021197484A3004C1E1D /* GGJ15 Java.jar */ = {isa = PBXFileReference; explicitFileType = compiled.java.jar; includeInIndex = 0; path = "GGJ15 Java.jar"; sourceTree = BUILT_PRODUCTS_DIR; };
+		5B121021197484A3004C1E1D /* GGJ15 Java.jar */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = archive.jar; path = "GGJ15 Java.jar"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5B12102E197484FA004C1E1D /* GGJActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GGJActivity.h; sourceTree = "<group>"; };
 		5B12102F197484FA004C1E1D /* GGJActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GGJActivity.m; sourceTree = "<group>"; };
 		5B121033197485FE004C1E1D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = Platforms/Android/Info.plist; sourceTree = "<group>"; };

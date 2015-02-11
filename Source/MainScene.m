@@ -1,14 +1,16 @@
-#import "MainScene.h"
 #import "CCScene+Private.h"
 #import "CCPhysics+ObjectiveChipmunk.h"
+
+#import "CCParticleSystemBase.h"
+#import "CCController.h"
+
+#import "MainScene.h"
+#import "TitleScene.h"
 
 #import "Bullet.h"
 #import "Bomb.h"
 
 #import "StatusNode.h"
-#import "CCParticleSystemBase.h"
-
-#import "CCController.h"
 
 @implementation MainScene
 {
@@ -208,7 +210,18 @@
     if(player == _player1) _player2Score += 1;
     if(player == _player2) _player1Score += 1;
     [self updateScores];
+    
+    if(_player1Score >= 5 || _player2Score >= 5){
+        [self winner];
+    }
 }
+
+-(void) winner {
+    TitleScene *scene = (TitleScene*)[CCBReader load:@"TitleScene"];
+    [scene winnerMessage:_player1Score > _player2Score ? @"Player One Wins!" : @"Player Two Wins!"];
+    [self.director presentScene:scene];
+}
+
 
 -(BOOL)ccPhysicsCollisionBegin:(CCPhysicsCollisionPair *)pair player:(PlayerPlane *)player bullet:(Bullet *)bullet
 {
